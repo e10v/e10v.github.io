@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Evgeny Ivanov - python</title>
+    <subtitle>Blog about data science, two-sided markets, statistics, and software development</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://e10v.me/tags/python/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://e10v.me"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2023-12-11T00:00:00+00:00</updated>
+    <id>https://e10v.me/tags/python/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Readme Driven Development for an A&#x2F;B testing analysis package</title>
+        <published>2023-12-11T00:00:00+00:00</published>
+        <updated>2023-12-11T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Evgeny Ivanov
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://e10v.me/tea-tasting-rdd/"/>
+        <id>https://e10v.me/tea-tasting-rdd/</id>
+        
+        <content type="html" xml:base="https://e10v.me/tea-tasting-rdd/">&lt;h2 id=&quot;tea-tasting-statistical-analysis-of-a-b-tests&quot; class=&quot;h2&quot;&gt;tea-tasting: statistical analysis of A&#x2F;B tests&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#tea-tasting-statistical-analysis-of-a-b-tests&quot; aria-label=&quot;Anchor link for: tea-tasting-statistical-analysis-of-a-b-tests&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt; is a Python package for statistical analysis of A&#x2F;B tests that features:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Student&#x27;s t-test, Z-test, and Bootstrap out of the box.&lt;&#x2F;li&gt;
+&lt;li&gt;Extensible API: Define and use statistical tests of your choice.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;alexdeng.github.io&#x2F;public&#x2F;files&#x2F;kdd2018-dm.pdf&quot;&gt;Delta method&lt;&#x2F;a&gt; for ratio metrics.&lt;&#x2F;li&gt;
+&lt;li&gt;Variance reduction with &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;exp-platform.com&#x2F;Documents&#x2F;2013-02-CUPED-ImprovingSensitivityOfControlledExperiments.pdf&quot;&gt;CUPED&lt;&#x2F;a&gt;&#x2F;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doordash.engineering&#x2F;2020&#x2F;06&#x2F;08&#x2F;improving-experimental-power-through-control-using-predictions-as-covariate-cupac&#x2F;&quot;&gt;CUPAC&lt;&#x2F;a&gt; (also in combination with delta method for ratio metrics).&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Fieller%27s_theorem&quot;&gt;Fieller&#x27;s confidence interval&lt;&#x2F;a&gt; for percent change.&lt;&#x2F;li&gt;
+&lt;li&gt;Sample ratio mismatch check.&lt;&#x2F;li&gt;
+&lt;li&gt;Power analysis.&lt;&#x2F;li&gt;
+&lt;li&gt;A&#x2F;A tests.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Currently, &lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt; is in the planning stage, and I&#x27;m starting with a README that outlines the proposed API — an approach known as Readme Driven Development (RDD).&lt;&#x2F;p&gt;
+&lt;p&gt;In this blog post, I&#x27;ll explain the motivation for creating this package and the benefits of the RDD approach.&lt;&#x2F;p&gt;
+&lt;p&gt;Explore the README &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;tea-tasting&#x2F;tree&#x2F;v0.0.1#readme&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;I welcome your insights! If you have any suggestions, questions, or ideas for alternative designs, please join the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;tea-tasting&#x2F;discussions&#x2F;6&quot;&gt;conversation&lt;&#x2F;a&gt; on GitHub.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;why-a-new-package&quot; class=&quot;h2&quot;&gt;Why a new package?&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#why-a-new-package&quot; aria-label=&quot;Anchor link for: why-a-new-package&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;One might wonder why there&#x27;s a need for a new package like &lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt; when there are already SciPy and statsmodels available. Both of these are general-purpose statistical packages offering a wide range of statistical tests. However, they lack certain methods that are specific for A&#x2F;B test analysis.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt; aims to fill this gap. For example, it includes methods such as the delta method for ratio metrics, CUPED&#x2F;CUPAC for variance reduction, and methods for calculating confidence intervals for percentage changes.&lt;&#x2F;p&gt;
+&lt;p&gt;The intention behind &lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt; is not only to automate the analysis process but also to reduce the probability of making a mistake. Statistical analysis of A&#x2F;B tests can be challenging, with many opportunities for errors. &lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt; is designed to mitigate these risks.&lt;&#x2F;p&gt;
+&lt;p&gt;Many companies develop in-house platforms for A&#x2F;B testing, but these platforms often don&#x27;t cover every scenario, such as non-standard randomization units used in cluster-level or switchback experiments, or the analysis of new metrics not yet integrated into the platform. &lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt; is also useful in these cases.&lt;&#x2F;p&gt;
+&lt;p&gt;In summary, &lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt; is designed for a more specialized, error-minimizing approach to A&#x2F;B testing analysis, filling in the gaps left by existing general-purpose statistical packages.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;package-name&quot; class=&quot;h2&quot;&gt;Package name&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#package-name&quot; aria-label=&quot;Anchor link for: package-name&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;The package name &amp;quot;tea-tasting&amp;quot; is a play of words which refers to two subjects:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Lady_tasting_tea&quot;&gt;Lady tasting tea&lt;&#x2F;a&gt; is a famous experiment which was devised by Ronald Fisher. In this experiment, Fisher developed the null hypothesis significance testing framework to analyze a lady&#x27;s claim that she could discern whether the tea or the milk was added first to a cup.&lt;&#x2F;li&gt;
+&lt;li&gt;&amp;quot;tea-tasting&amp;quot; phonetically resembles &amp;quot;t-testing&amp;quot; or Student&#x27;s t-test, a statistical test developed by William Gosset.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;tea-tasting-rdd&#x2F;lady-tasting-tea-small.png&quot; class=&quot;figure-img img-fluid mb-0 me-5 mt-3&quot; alt=&quot;Lady tasting tea by DALL-E&quot;&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;Lady tasting tea by DALL-E&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;h2 id=&quot;readme-driven-development&quot; class=&quot;h2&quot;&gt;Readme Driven Development&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#readme-driven-development&quot; aria-label=&quot;Anchor link for: readme-driven-development&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Readme Driven Development (RDD) is a software development approach where you start by writing the README file first, before writing any code. The idea is similar to Amazon&#x27;s &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.allthingsdistributed.com&#x2F;2006&#x2F;11&#x2F;working_backwards.html&quot;&gt;Working Backwards&lt;&#x2F;a&gt; approach, where a press release is drafted &lt;em&gt;before&lt;&#x2F;em&gt; starting a new product.&lt;&#x2F;p&gt;
+&lt;p&gt;Writing README encourages thinking from a user&#x27;s perspective, focusing on how users will interact with the API. It allows for better project planning. You don&#x27;t need to revise the code every time you decide to include something in the public API.&lt;&#x2F;p&gt;
+&lt;p&gt;Don&#x27;t confuse RDD with the Waterfall approach. It&#x27;s not about creating exhaustive specifications or detailed documentation upfront. In fact, with &lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt;, I might have gone a bit deeper into details than usual, but this was a conscious choice to thoroughly plan the package&#x27;s functionality.&lt;&#x2F;p&gt;
+&lt;p&gt;To learn more about RDD, I recommend reading the Tom Preston-Werner&#x27;s &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;tom.preston-werner.com&#x2F;2010&#x2F;08&#x2F;23&#x2F;readme-driven-development&quot;&gt;blog post&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;request-for-feedback&quot; class=&quot;h2&quot;&gt;Request for feedback&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#request-for-feedback&quot; aria-label=&quot;Anchor link for: request-for-feedback&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;One of the key benefits of Readme Driven Development (RDD) is the ability to adapt design choices with minimal cost. After reviewing the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;tea-tasting&#x2F;tree&#x2F;v0.0.1#readme&quot;&gt;README&lt;&#x2F;a&gt;, you might have insights that could enhance this project. It could be anything from improved naming conventions and additional features to an entirely different API approach.&lt;&#x2F;p&gt;
+&lt;p&gt;Your perspective is valuable! If the concept of this package interests you and you have ideas for its design, I encourage you to &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;tea-tasting&#x2F;discussions&#x2F;6&quot;&gt;share your thoughts&lt;&#x2F;a&gt; on Github. Let&#x27;s collaborate to make &lt;strong&gt;tea-tasting&lt;&#x2F;strong&gt; as effective and user-friendly as possible.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;p-s-can-chatgpt-write-a-python-package&quot; class=&quot;h2&quot;&gt;P.S. Can ChatGPT write a Python package?&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#p-s-can-chatgpt-write-a-python-package&quot; aria-label=&quot;Anchor link for: p-s-can-chatgpt-write-a-python-package&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Tom Preston-Werner wrote his blog post in 2010. There were no LLMs at that moment. Thinking about RDD in 2023 I couldn&#x27;t resist asking ChatGPT to write the package code based on README.&lt;&#x2F;p&gt;
+&lt;p&gt;Well, no, not here yet. ChatGPT resisted performing a large task at once. After I insisted, ChatGPT started implementing it class by class. In the first class it started hallucinating on SciPy API. I gave up shortly.&lt;&#x2F;p&gt;
+&lt;p&gt;For those interested in how this experiment unfolded, you can view the entire conversation here: &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;chat.openai.com&#x2F;share&#x2F;470ba67f-b697-47b8-8590-47ba46ab35dc&quot;&gt;chat&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>rico: rich content to HTML as easy as Doc(df, plot)</title>
+        <published>2023-08-10T00:00:00+00:00</published>
+        <updated>2023-08-13T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Evgeny Ivanov
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://e10v.me/rico-rich-content-to-html-easy/"/>
+        <id>https://e10v.me/rico-rich-content-to-html-easy/</id>
+        
+        <content type="html" xml:base="https://e10v.me/rico-rich-content-to-html-easy/">&lt;h2 id=&quot;what-is-rico&quot; class=&quot;h2&quot;&gt;What is rico?&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#what-is-rico&quot; aria-label=&quot;Anchor link for: what-is-rico&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;rico&quot;&gt;&lt;strong&gt;rico&lt;&#x2F;strong&gt;&lt;&#x2F;a&gt; is a Python package for creating HTML documents from rich content: dataframes, plots, images, markdown etc. It provides a high-level, easy-to-use API with reasonable defaults, as well as low-level access for better control.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;why-rico&quot; class=&quot;h2&quot;&gt;Why rico?&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#why-rico&quot; aria-label=&quot;Anchor link for: why-rico&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;One might wonder, why do I need another package if I can create HTML documents with Jupyter and nbconvert? If you are working with data in Jupyter notebooks, you probably don&#x27;t need &lt;strong&gt;rico&lt;&#x2F;strong&gt;. But if you are working with data in Python scripts, &lt;strong&gt;rico&lt;&#x2F;strong&gt; can be helpful.&lt;&#x2F;p&gt;
+&lt;p&gt;Here is my use case. I&#x27;m working with data in Python scripts and organizing them into data pipelines using Prefect. Sometimes I want to create a report as the last step of a pipeline. With Jupyter I would have the following routine:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a task to save all the dataframes I need for my report in Parquet files or in a database.&lt;&#x2F;li&gt;
+&lt;li&gt;Create a Jupyter notebook to load the dataframes and visualize all the tables and plots I need.&lt;&#x2F;li&gt;
+&lt;li&gt;Create a task to convert the notebook to HTML using nbconvert.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Creating an extra task and an extra notebook is not what bothers me the most. I have to think about how to pass data to a notebook. Sure it&#x27;s not a very hard job, but it&#x27;s not a job I want to spend my time on.&lt;&#x2F;p&gt;
+&lt;p&gt;With &lt;strong&gt;rico&lt;&#x2F;strong&gt;, I simply create a task to add all objects I want to visualize to a document and save it to an HTML file.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;how-to-use-rico&quot; class=&quot;h2&quot;&gt;How to use rico?&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#how-to-use-rico&quot; aria-label=&quot;Anchor link for: how-to-use-rico&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;installation&quot; class=&quot;h4&quot;&gt;Installation&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#installation&quot; aria-label=&quot;Anchor link for: installation&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pip&lt;&#x2F;span&gt;&lt;span&gt; install rico
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;strong&gt;rico&lt;&#x2F;strong&gt; has no dependencies other than standard Python packages.&lt;&#x2F;p&gt;
+&lt;p&gt;For Markdown support install &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;executablebooks&#x2F;markdown-it-py&quot;&gt;markdown-it-py&lt;&#x2F;a&gt; or &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Python-Markdown&#x2F;markdown&quot;&gt;Python Markdown&lt;&#x2F;a&gt; or set your own Markdown renderer using &lt;code&gt;rico.set_config&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;basic-usage&quot; class=&quot;h4&quot;&gt;Basic usage&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#basic-usage&quot; aria-label=&quot;Anchor link for: basic-usage&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;strong&gt;rico&lt;&#x2F;strong&gt; provides both declarative and imperative style interfaces.&lt;&#x2F;p&gt;
+&lt;p&gt;Declarative style:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span&gt;pandas &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;as &lt;&#x2F;span&gt;&lt;span&gt;pd
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span&gt;rico
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;df = pd.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;DataFrame&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    {
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;8&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;],
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;8&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;],
+&lt;&#x2F;span&gt;&lt;span&gt;    },
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;index&lt;&#x2F;span&gt;&lt;span&gt;=pd.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Index&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;list&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;AAABBBCCC&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)),
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;plot = df.plot.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;scatter&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;doc = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Doc&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello, World!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, df, plot, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;My doc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The result:&lt;&#x2F;p&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;rico-rich-content-to-html-easy&#x2F;basic_usage.png&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;rico-rich-content-to-html-easy&#x2F;basic_usage.png&quot; class=&quot;figure-img img-thumbnail&quot; alt=&quot;Basic usage&quot; width=&quot;480px&quot;&gt;&lt;&#x2F;a&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;Click on image to zoom in.&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;Imperative style:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span&gt;doc = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Doc&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;My doc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello, World!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(df, plot)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The result will look the same.&lt;&#x2F;p&gt;
+&lt;p&gt;Serialize the document to HTML using &lt;code&gt;str(doc)&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;with &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;open&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;doc.html&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;w&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;as &lt;&#x2F;span&gt;&lt;span&gt;f:
+&lt;&#x2F;span&gt;&lt;span&gt;    f.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;write&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;(doc))
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Also, you can call &lt;code&gt;doc.serialize(indent=True)&lt;&#x2F;code&gt; to indent the HTML element tree. For brevity, I will omit the serialization and saving to file in the following examples.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;content-types&quot; class=&quot;h4&quot;&gt;Content types&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#content-types&quot; aria-label=&quot;Anchor link for: content-types&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;strong&gt;rico&lt;&#x2F;strong&gt; automatically recognizes the following content types:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;rico&lt;&#x2F;strong&gt; content classes (subclasses of &lt;code&gt;rico.ContentBase&lt;&#x2F;code&gt;).&lt;&#x2F;li&gt;
+&lt;li&gt;Matplotlib Pyplot Plots.&lt;&#x2F;li&gt;
+&lt;li&gt;Dataframes, Seaborn plots, Altair charts and other types with &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;ipython.readthedocs.io&#x2F;en&#x2F;stable&#x2F;config&#x2F;integrating.html&quot;&gt;IPython rich representation methods&lt;&#x2F;a&gt;. Basically, &lt;strong&gt;rico&lt;&#x2F;strong&gt; support the same types as Jupyter.&lt;&#x2F;li&gt;
+&lt;li&gt;Text.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Use specific classes for plots and text to change the default behavior:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span&gt;doc = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Doc&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Text&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello, World!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;mono&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;True&lt;&#x2F;span&gt;&lt;span&gt;),  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# The default value is False.
+&lt;&#x2F;span&gt;&lt;span&gt;    df,
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Plot&lt;&#x2F;span&gt;&lt;span&gt;(plot, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;format&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;png&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bbox_inches&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;tight&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# The default value is &amp;quot;svg&amp;quot;.
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;My doc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The following code gives the same result as the code above:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span&gt;doc = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Doc&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;My doc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append_text&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello, World!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;mono&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;True&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(df)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append_plot&lt;&#x2F;span&gt;&lt;span&gt;(plot, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;format&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;png&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bbox_inches&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;tight&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Use specific classes and methods for other content types:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Images: &lt;code&gt;Image&lt;&#x2F;code&gt; or &lt;code&gt;Doc.append_image&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Code: &lt;code&gt;Code&lt;&#x2F;code&gt; or &lt;code&gt;Doc.append_code&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Markdown: &lt;code&gt;Markdown&lt;&#x2F;code&gt; or &lt;code&gt;Doc.append_markdown&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;HTML tag: &lt;code&gt;Tag&lt;&#x2F;code&gt; or &lt;code&gt;Doc.append_tag&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Raw HTML: &lt;code&gt;HTML&lt;&#x2F;code&gt; or &lt;code&gt;Doc.append_html&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;For example:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span&gt;doc = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Doc&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Markdown&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;## Dataframe&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;    df,
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h2&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Plot&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# An alternative way to add a header.
+&lt;&#x2F;span&gt;&lt;span&gt;    plot,
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;HTML&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;h2&amp;gt;Code&amp;lt;&#x2F;h2&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Another way to add a header.
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Code&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;print(&amp;#39;Hello, World!&amp;#39;)&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;My doc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The result:&lt;&#x2F;p&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;rico-rich-content-to-html-easy&#x2F;content_types.png&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;rico-rich-content-to-html-easy&#x2F;content_types.png&quot; class=&quot;figure-img img-thumbnail&quot; alt=&quot;Content types&quot; width=&quot;480px&quot;&gt;&lt;&#x2F;a&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;Click on image to zoom in.&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;The following code gives the same result as the code above:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span&gt;doc = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Doc&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;My doc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append_markdown&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;## Dataframe&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(df)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append_tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h2&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Plot&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(plot)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append_html&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;h2&amp;gt;Code&amp;lt;&#x2F;h2&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append_code&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;print(&amp;#39;Hello, World!&amp;#39;)&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;layout&quot; class=&quot;h4&quot;&gt;Layout&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#layout&quot; aria-label=&quot;Anchor link for: layout&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;strong&gt;rico&lt;&#x2F;strong&gt; relies on &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;getbootstrap.com&#x2F;&quot;&gt;Bootstrap&lt;&#x2F;a&gt; styles. The resulting documents are responsive and mobile-friendly. Use Bootstrap classes to control document layout. For example:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span&gt;altair &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;as &lt;&#x2F;span&gt;&lt;span&gt;alt
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;doc = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Doc&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h2&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Dataframes&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Div&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;        rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Obj&lt;&#x2F;span&gt;&lt;span&gt;(rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h3&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), df.loc[&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, :], &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;col&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;        rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Obj&lt;&#x2F;span&gt;&lt;span&gt;(rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h3&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), df.loc[&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, :], &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;col&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;        rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Obj&lt;&#x2F;span&gt;&lt;span&gt;(rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h3&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), df.loc[&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, :], &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;col&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;row row-cols-auto&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;    ),
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h2&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Plots&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;    rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Div&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;        rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Obj&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;            rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h3&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;            alt.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Chart&lt;&#x2F;span&gt;&lt;span&gt;(df.loc[&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, :]).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;mark_point&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;encode&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;col&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;        ),
+&lt;&#x2F;span&gt;&lt;span&gt;        rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Obj&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;            rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h3&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;            alt.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Chart&lt;&#x2F;span&gt;&lt;span&gt;(df.loc[&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, :]).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;mark_point&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;encode&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;col&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;        ),
+&lt;&#x2F;span&gt;&lt;span&gt;        rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Obj&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;            rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h3&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;            alt.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Chart&lt;&#x2F;span&gt;&lt;span&gt;(df.loc[&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, :]).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;mark_point&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;encode&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;col&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;        ),
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;row row-cols-auto&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;    ),
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Grid system&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The result:&lt;&#x2F;p&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;rico-rich-content-to-html-easy&#x2F;layout.png&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;rico-rich-content-to-html-easy&#x2F;layout.png&quot; class=&quot;figure-img img-thumbnail&quot; alt=&quot;Layout&quot;&gt;&lt;&#x2F;a&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;Click on image to zoom in.&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;How it works:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;rico.Div&lt;&#x2F;code&gt; represents an HTML container (&lt;code&gt;&amp;lt;div&amp;gt;&lt;&#x2F;code&gt;). You can add objects to it, just like with &lt;code&gt;rico.Doc&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Each content element is also wrapped in a &lt;code&gt;&amp;lt;div&amp;gt;&lt;&#x2F;code&gt; container.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;rico.Obj&lt;&#x2F;code&gt; is a magic class that automatically determines the content type, just like &lt;code&gt;rico.Doc&lt;&#x2F;code&gt; does.&lt;&#x2F;li&gt;
+&lt;li&gt;You can specify an HTML &lt;code&gt;class&lt;&#x2F;code&gt; attribute of a &lt;code&gt;&amp;lt;div&amp;gt;&lt;&#x2F;code&gt; container for &lt;code&gt;rico.Div&lt;&#x2F;code&gt; and for any content element such as &lt;code&gt;rico.Obj&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;The &lt;code&gt;&amp;quot;row&amp;quot;&lt;&#x2F;code&gt;, &lt;code&gt;&amp;quot;row-cols-auto&amp;quot;&lt;&#x2F;code&gt;, &lt;code&gt;&amp;quot;col&amp;quot;&lt;&#x2F;code&gt; classes are part of the Bootstrap Grid System. Read more in the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;getbootstrap.com&#x2F;docs&#x2F;5.3&#x2F;layout&#x2F;grid&#x2F;&quot;&gt;documentation&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The following code gives the same result as the code above:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-python &quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span&gt;doc = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Doc&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Grid system&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append_tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h2&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Dataframes&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;div1 = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Div&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;row row-cols-auto&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(div1)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;name, data &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span&gt;df.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;groupby&lt;&#x2F;span&gt;&lt;span&gt;(df.index):
+&lt;&#x2F;span&gt;&lt;span&gt;    div1.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h3&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, name), data, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;col&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append_tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h2&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Plots&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;div2 = rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Div&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;row row-cols-auto&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;doc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(div2)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;name, data &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span&gt;df.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;groupby&lt;&#x2F;span&gt;&lt;span&gt;(df.index):
+&lt;&#x2F;span&gt;&lt;span&gt;    div2.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;        rico.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Tag&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;h3&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, name),
+&lt;&#x2F;span&gt;&lt;span&gt;        alt.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Chart&lt;&#x2F;span&gt;&lt;span&gt;(data).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;mark_point&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;encode&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;),
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;col&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;    )
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;more-information&quot; class=&quot;h2&quot;&gt;More information&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#more-information&quot; aria-label=&quot;Anchor link for: more-information&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;To learn more on how to use rico:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Read the more detailed &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;rico#user-guide&quot;&gt;user guide&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Take a look at the self-explanatory &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;rico&#x2F;tree&#x2F;main&#x2F;examples&quot;&gt;examples&lt;&#x2F;a&gt; with resulting HTML documents.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;rico#installation&quot;&gt;Install&lt;&#x2F;a&gt; &lt;strong&gt;rico&lt;&#x2F;strong&gt;, create your own documents.&lt;&#x2F;li&gt;
+&lt;li&gt;Check the docstrings for details.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Feel free to create an &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;rico&#x2F;issues&quot;&gt;issue&lt;&#x2F;a&gt; to report bugs or submit a suggestions.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
