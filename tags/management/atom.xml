@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Evgeny Ivanov - management</title>
+    <subtitle>Blog about data science, two-sided markets, statistics, and software development</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://e10v.me/tags/management/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://e10v.me"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2024-04-29T00:00:00+00:00</updated>
+    <id>https://e10v.me/tags/management/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Mediocrity and personal comfort</title>
+        <published>2024-04-29T00:00:00+00:00</published>
+        <updated>2024-04-29T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Evgeny Ivanov
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://e10v.me/mediocrity-and-personal-comfort/"/>
+        <id>https://e10v.me/mediocrity-and-personal-comfort/</id>
+        
+        <content type="html" xml:base="https://e10v.me/mediocrity-and-personal-comfort/">&lt;h2 id=&quot;intro&quot; class=&quot;h2&quot;&gt;Intro&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#intro&quot; aria-label=&quot;Anchor link for: intro&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;I got hooked on David Heinemeier Hansson&#x27;s blog, the co-founder of 37signals. With a small team of less than 100 employees, 37signals develops products that compete with those from companies with thousands of employees, such as Slack (2.5k employees) and Atlassian (10k employees).&lt;&#x2F;p&gt;
+&lt;p&gt;One post strongly resonates with my recent reflections: &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;world.hey.com&#x2F;dhh&#x2F;breaking-the-inertia-of-mediocrity-88048743&quot;&gt;Breaking the inertia of mediocrity&lt;&#x2F;a&gt;. I highly recommend reading it. Additionally, I&#x27;d like to express my views, expand on the topic, and share some personal experiences.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;mediocrity-is-more-dangerous-than-the-terrible&quot; class=&quot;h2&quot;&gt;Mediocrity is more dangerous than the terrible&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#mediocrity-is-more-dangerous-than-the-terrible&quot; aria-label=&quot;Anchor link for: mediocrity-is-more-dangerous-than-the-terrible&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Employees, processes, decisions can be terrible. But the terrible is not necessarily dangerous, because you can see it right away. And as you see it, you immediately want to fix it and take action: fire the employee, change the process, review the decision.&lt;&#x2F;p&gt;
+&lt;p&gt;What&#x27;s dangerous is the mediocre. It&#x27;s widespread, not immediately visible to the naked eye. And when it does become apparent, it’s very uncomfortable to address. Often, people choose to ignore the issue due to inertia, postponing any action. This is the main danger—mediocrity can spread like mold.&lt;&#x2F;p&gt;
+&lt;p&gt;I understand quite well why most people are not eager to get rid of the mediocrity. Usually, it means having several difficult conversations, facing misunderstanding, causing someone emotional distress. It&#x27;s much easier to just walk by. And often you are not even 100% sure if the mediocre is really bad in this situation.&lt;&#x2F;p&gt;
+&lt;p&gt;&quot;Is this process a waste of time and not achieving its goals? Maybe. Well, if I just walk by, I certainly won&#x27;t provoke any negativity towards myself&quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;I had to fire a mediocre employee once. I found it unpleasant. It was hard to explain to the employee the reason I was firing him. There were no obvious screw-ups. No one in the team understood why I made this decision. Everyone was surprised. I want to avoid such experiences. And most do avoid them.&lt;&#x2F;p&gt;
+&lt;p&gt;I&#x27;m not saying that we should always eliminate mediocrity. It depends on many factors. However, it often is necessary and important. And most will avoid doing it.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;there-will-be-pain&quot; class=&quot;h2&quot;&gt;There will be pain&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#there-will-be-pain&quot; aria-label=&quot;Anchor link for: there-will-be-pain&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Another perspective of the same issue: optimizing personal comfort vs. what&#x27;s better for the business. For personal comfort, it&#x27;s often better to walk past the mediocre and leave everything as it is. For business, this is not always the optimal option.&lt;&#x2F;p&gt;
+&lt;p&gt;There are other situations where the desire for personal comfort may prevail. For instance, you see that somebody is about to make a decision you believe is wrong. But it&#x27;s not related to you work directly. You can disagree, spend some time arguing, asking and answering question. Or you can just stay with comfort and let people make a possible mistake.&lt;&#x2F;p&gt;
+&lt;p&gt;Over the several complex projects I&#x27;ve noticed a pattern which appears when something doesn&#x27;t work out for some time or when there&#x27;s high uncertainty in the project. People naturally feel uncomfortable and look for &quot;causes&quot; for their discomfort, leading to suggestions like:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;having the product manager better describe tasks,&lt;&#x2F;li&gt;
+&lt;li&gt;adjusting team processes and improving the task tracker settings,&lt;&#x2F;li&gt;
+&lt;li&gt;creating dashboards to automatically track our velocity,&lt;&#x2F;li&gt;
+&lt;li&gt;adding automatic notifications in Slack.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Looking back, I see that I sometimes suggest similar ideas myself.&lt;&#x2F;p&gt;
+&lt;p&gt;No, I&#x27;m not saying that all this should not be done at all (although some of them actually are unnecessary). Refactoring, putting things in order and cleaning up the mess can definitely be useful.&lt;&#x2F;p&gt;
+&lt;p&gt;But I also understand that what people perceive as the source of their discomfort often isn’t the root problem. Focusing on procedures to make things run smoother will only bring a marginal gain. These actions are just &quot;painkillers&quot;. They have a temporary effect. Moreover, there will almost certainly be pain.&lt;&#x2F;p&gt;
+&lt;p&gt;The truth is that in complex project with potentially high impact, the probability that something will go wrong increases significantly:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;the first few attempts might fail,&lt;&#x2F;li&gt;
+&lt;li&gt;some initial assumptions may prove incorrect,&lt;&#x2F;li&gt;
+&lt;li&gt;difficult conversations and even conflicts might arise,&lt;&#x2F;li&gt;
+&lt;li&gt;the current architecture could be poorly suited to the task.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Achieving something significant and important almost inevitably involves pain. &quot;Painkillers&quot; do not eliminate the true cause of discomfort, they only temporarily reduce it. Staying with the pain and focusing on the actual root causes will increase the likelihood of success.&lt;&#x2F;p&gt;
+&lt;p&gt;David Heinemeier Hansson wrote a post on this topic as well: &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;world.hey.com&#x2F;dhh&#x2F;stay-with-the-pain-don-t-shut-this-out-11021763&quot;&gt;Stay with the pain, don&#x27;t shut this out&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;more-reading&quot; class=&quot;h2&quot;&gt;More reading&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#more-reading&quot; aria-label=&quot;Anchor link for: more-reading&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Here are other posts from his blog that caught my attention:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;world.hey.com&#x2F;dhh&#x2F;360-degrees-of-phony-back-patting-ec915f47&quot;&gt;360 degrees of phony back-patting&lt;&#x2F;a&gt; – on why 37signals got rid of the 360 review process.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;world.hey.com&#x2F;dhh&#x2F;inspiration-is-perishable-f2c8652e&quot;&gt;Inspiration is perishable&lt;&#x2F;a&gt; – on inspiration.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;world.hey.com&#x2F;dhh&#x2F;the-long-argument-92458868&quot;&gt;The long argument&lt;&#x2F;a&gt; – on how changing opinions can take time.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+</feed>
