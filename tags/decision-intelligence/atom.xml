@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Evgeny Ivanov - decision intelligence</title>
+    <subtitle>Insights on topics I work on and care about</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://e10v.me/tags/decision-intelligence/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://e10v.me"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-05-12T00:00:00+00:00</updated>
+    <id>https://e10v.me/tags/decision-intelligence/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Ladder of questions in analysis</title>
+        <published>2025-05-12T00:00:00+00:00</published>
+        <updated>2025-05-12T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Evgeny Ivanov
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://e10v.me/ladder-of-questions-in-analysis/"/>
+        <id>https://e10v.me/ladder-of-questions-in-analysis/</id>
+        
+        <content type="html" xml:base="https://e10v.me/ladder-of-questions-in-analysis/">&lt;p&gt;A ladder of questions in analysis:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Which &lt;em&gt;question&lt;&#x2F;em&gt; should we ask to address a decision or a problem?&lt;&#x2F;li&gt;
+&lt;li&gt;Which &lt;em&gt;model&lt;&#x2F;em&gt; should we choose to answer the question?&lt;&#x2F;li&gt;
+&lt;li&gt;Which &lt;em&gt;assumptions&lt;&#x2F;em&gt; must hold for the model to be valid, and do they hold?&lt;&#x2F;li&gt;
+&lt;li&gt;What &lt;em&gt;data&lt;&#x2F;em&gt; do we need to apply the model?&lt;&#x2F;li&gt;
+&lt;li&gt;What &lt;em&gt;conclusions&lt;&#x2F;em&gt; can we draw after applying the model?&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;From my personal experience, people often skip steps 1 and 3, which can lead to bad decisions or mediocre solutions.&lt;&#x2F;p&gt;
+&lt;p&gt;You probably read this in a statistical or data-analysis context. But I believe the framework applies more broadly.&lt;&#x2F;p&gt;
+&lt;p&gt;In statistics, answering a wrong question is sometimes called a Type III error. I&#x27;ve already &lt;a href=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;ranking-two-sided-matching-platform-part-1&#x2F;#p-s-type-iii-error&quot;&gt;mentioned&lt;&#x2F;a&gt; it in a blog post.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
