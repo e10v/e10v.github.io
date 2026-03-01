@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Evgeny Ivanov - history</title>
+    <subtitle>Insights on topics I work on and care about</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://e10v.me/tags/history/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://e10v.me"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2024-08-12T00:00:00+00:00</updated>
+    <id>https://e10v.me/tags/history/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Curious facts about Ronald Fisher</title>
+        <published>2024-08-12T00:00:00+00:00</published>
+        <updated>2024-08-12T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Evgeny Ivanov
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://e10v.me/curious-facts-about-ronald-fisher/"/>
+        <id>https://e10v.me/curious-facts-about-ronald-fisher/</id>
+        
+        <content type="html" xml:base="https://e10v.me/curious-facts-about-ronald-fisher/">&lt;h2 id=&quot;fisher-and-smoking&quot; class=&quot;h2&quot;&gt;Fisher and smoking&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#fisher-and-smoking&quot; aria-label=&quot;Anchor link for: fisher-and-smoking&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Ronald_Fisher&quot;&gt;Ronald Fisher&lt;&#x2F;a&gt;, the father of modern statistics and experimental design, refused to believe that smoking tobacco caused lung cancer. He argued that correlation does not imply causation and even published a paper in Nature titled &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.nature.com&#x2F;articles&#x2F;182596a0&quot;&gt;Cancer and Smoking&lt;&#x2F;a&gt;, defending this viewpoint.&lt;&#x2F;p&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;curious-facts-about-ronald-fisher&#x2F;fisher-smoking.png&quot; class=&quot;figure-img img-fluid mb-0 me-5 mt-3&quot; alt=&quot;Ronald Fisher enjoying a pipe&quot;&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;&lt;p&gt;Ronald Fisher enjoying a pipe, 1956. &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.researchgate.net&#x2F;figure&#x2F;RA-Fisher-smoking-a-pipe-1956_fig1_8524006&quot;&gt;Source&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;h2 id=&quot;fisher-and-guinness&quot; class=&quot;h2&quot;&gt;Fisher and Guinness&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#fisher-and-guinness&quot; aria-label=&quot;Anchor link for: fisher-and-guinness&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Ronald Fisher helped &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;William_Sealy_Gosset&quot;&gt;William Gosset&lt;&#x2F;a&gt; develop a statistical test known as &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Student%27s_t-test&quot;&gt;Student&#x27;s t-test&lt;&#x2F;a&gt;. They exchanged over 150 letters between 1912 and 1934. Gosset published his work under the pen name Student as he was the Head Experimental Brewer at &lt;em&gt;Guinness&lt;&#x2F;em&gt; Brewery and was not allowed to publish under his real name.&lt;&#x2F;p&gt;
+&lt;p&gt;The fact about Gosset is well known. Less well known is that Fisher&#x27;s wife, Ruth Eileen Fisher née Guinness, was a great-great-granddaughter of Arthur Guinness, the founder of Guinness Brewery.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fisher-and-a-lady&quot; class=&quot;h2&quot;&gt;Fisher and a lady&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#fisher-and-a-lady&quot; aria-label=&quot;Anchor link for: fisher-and-a-lady&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Ronald Fisher devised the famous &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Lady_tasting_tea&quot;&gt;&quot;lady tasting tea&quot;&lt;&#x2F;a&gt; experiment. In this experiment, he developed the null hypothesis significance testing framework to analyze a lady&#x27;s claim that she could discern whether the tea or the milk was added first to the cup.&lt;&#x2F;p&gt;
+&lt;p&gt;The lady was &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Muriel_Bristol&quot;&gt;Muriel Bristol&lt;&#x2F;a&gt;, a phycologist at Rothamsted Research. One day at Rothamsted, Fisher offered Bristol a cup of tea, but she declined, explaining that she preferred the flavor when the milk was poured into the cup &lt;em&gt;before&lt;&#x2F;em&gt; the tea. Fisher said that the order of pouring could not affect the flavor. Bristol insisted that it did and that she could tell the difference. Overhearing this debate, William Roach said, &quot;Let&#x27;s test her.&quot; They devised an experiment, and Lady Bristol proved her case.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fisher-and-tea-tasting&quot; class=&quot;h2&quot;&gt;Fisher and tea-tasting&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#fisher-and-tea-tasting&quot; aria-label=&quot;Anchor link for: fisher-and-tea-tasting&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;tea-tasting&quot;&gt;tea-tasting&lt;&#x2F;a&gt; is a Python package that I developed for the statistical analysis of A&#x2F;B tests. The name &quot;tea-tasting&quot; is a play on words referring to two subjects:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &quot;lady tasting tea&quot; experiment, devised by Ronald Fisher.&lt;&#x2F;li&gt;
+&lt;li&gt;&quot;Tea-tasting&quot; phonetically resembling &quot;t-testing&quot; or Student&#x27;s t-test, developed by William Gosset with the help of Ronald Fisher.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The funny part is that tea-tasting doesn&#x27;t include &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Fisher%27s_exact_test&quot;&gt;Fisher&#x27;s exact test&lt;&#x2F;a&gt;, which was used in the &quot;lady tasting tea&quot; experiment. It&#x27;s like naming a coffee shop &quot;Espresso Corner&quot; and not serving espresso.&lt;&#x2F;p&gt;
+&lt;p&gt;Do you think I should implement Fisher&#x27;s exact test in tea-tasting? Or &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Boschloo%27s_test&quot;&gt;Boschloo&#x27;s test&lt;&#x2F;a&gt;? Or &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Barnard%27s_test&quot;&gt;Barnard&#x27;s test&lt;&#x2F;a&gt;? Let me know in the comments below.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

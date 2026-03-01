@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>Evgeny Ivanov - market design</title>
+      <link>https://e10v.me</link>
+      <description>Insights on topics I work on and care about</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://e10v.me/tags/market-design/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Fri, 24 Oct 2025 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Prices as model weights: learning from dispersed data</title>
+          <pubDate>Fri, 24 Oct 2025 00:00:00 +0000</pubDate>
+          <author>Evgeny Ivanov</author>
+          <link>https://e10v.me/prices-as-model-weights/</link>
+          <guid>https://e10v.me/prices-as-model-weights/</guid>
+          <description xml:base="https://e10v.me/prices-as-model-weights/">&lt;p&gt;Market prices are similar to model weights in the sense that they are &quot;fit&quot; through price discovery mechanisms to optimize for equilibrium. The difference between supply and demand is analogous to the gradient in backpropagation.&lt;&#x2F;p&gt;
+&lt;p&gt;An important property of prices is that they can be &quot;fit&quot; to &lt;em&gt;distributed&lt;&#x2F;em&gt; and sometimes &lt;em&gt;hidden&lt;&#x2F;em&gt; data. As Friedrich Hayek argued, prices convey &lt;em&gt;dispersed&lt;&#x2F;em&gt; knowledge that no single person or central planner could ever fully possess. There are problems that deal with information that cannot be accessed directly. A well-designed price discovery mechanism can solve such problems more efficiently than an AI&#x2F;ML model with limited information.&lt;&#x2F;p&gt;
+&lt;p&gt;This analogy came to mind while I was considering labor market congestion that occurs when too many candidates apply for a role. Most of those candidates are not a good fit for the job, but they still try their luck since it requires little effort from them. As a solution, employers automate screening with AI. Candidates also use AI to scrape job descriptions and apply automatically (like &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=76RJVWvNOOQ&quot;&gt;&quot;tinda finger&quot;&lt;&#x2F;a&gt;). This creates a vicious cycle in which nobody wins.&lt;&#x2F;p&gt;
+&lt;p&gt;One possible solution is a market design in which candidates pay to apply, with dynamic pricing. Paying to apply may sound provocative and require thoughtful consideration and careful testing. Payments can be made with platform-issued virtual points, available in limited supply. But here, I focus on why price signals may address this problem better than AI-based screening.&lt;&#x2F;p&gt;
+&lt;p&gt;The labor market is a matching market with information asymmetry, where both sides have unique preferences resolved only through costly interaction. Any AI&#x2F;ML algorithm is only as good as the data, and that data is limited and often inaccurate. Requiring payment to apply would elicit a candidate&#x27;s own estimate of their fit for the job and their true level of interest. These estimates would be reflected in prices, providing a visible signal that guides other candidates considering the role. This approach could reduce congestion, lower screening costs, and help form better matches.&lt;&#x2F;p&gt;
+</description>
+      </item>
+    </channel>
+</rss>

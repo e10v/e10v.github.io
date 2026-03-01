@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>Evgeny Ivanov - critical thinking</title>
+      <link>https://e10v.me</link>
+      <description>Insights on topics I work on and care about</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://e10v.me/tags/critical-thinking/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Mon, 25 Sep 2023 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Debunking the Dunning–Kruger effect with random number simulation</title>
+          <pubDate>Mon, 25 Sep 2023 00:00:00 +0000</pubDate>
+          <author>Evgeny Ivanov</author>
+          <link>https://e10v.me/debunking-dunning-kruger-effect/</link>
+          <guid>https://e10v.me/debunking-dunning-kruger-effect/</guid>
+          <description xml:base="https://e10v.me/debunking-dunning-kruger-effect/">&lt;h2 id=&quot;intro&quot; class=&quot;h2&quot;&gt;Intro&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#intro&quot; aria-label=&quot;Anchor link for: intro&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Many people associate the Dunning–Kruger effect with the following image:&lt;&#x2F;p&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;debunking-dunning-kruger-effect&#x2F;dunning-kruger_misinterpret.svg&quot; class=&quot;figure-img img-fluid mb-0&quot; alt=&quot;Misinterpretation of the Dunning–Kruger effect&quot; width=&quot;480px&quot;&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;&lt;p&gt;Misinterpretation of the Dunning–Kruger effect&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;Actually, this image is a misinterpretation of the conclusions drawn by Dunning and Kruger from their experiments. The Dunning–Kruger effect is a cognitive bias in which people with limited competence in a particular domain overestimate their abilities.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#wikipedia&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Furthermore, evidence suggests that the Dunning and Kruger experiments might not definitively prove that the effect is real. It can be shown that it&#x27;s a statistical artifact and the result of the way data is manipulated.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#nuhfer_2016&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#nuhfer_2017&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#jarry&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; I&#x27;ll illustrate this using a random number simulation, which offers an intuitive and straightforward understanding.&lt;&#x2F;p&gt;
+&lt;p&gt;In this post, I&#x27;ll:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Provide details of the experiments and analysis conducted by Dunning and Kruger.&lt;&#x2F;li&gt;
+&lt;li&gt;Simulate similar results using random data that do not imply that the effect is real.&lt;&#x2F;li&gt;
+&lt;li&gt;Explain why percentiles are not a suitable measure for these experiments.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;I also created a &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;dunning-kruger.streamlit.app&quot;&gt;Streamlit app&lt;&#x2F;a&gt; as a demo for this blog post. Feel free to play with it and check out the &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;dunning-kruger&quot;&gt;source code&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dunning-and-kruger-experiments&quot; class=&quot;h2&quot;&gt;Dunning and Kruger experiments&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#dunning_kruger&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#dunning-and-kruger-experiments&quot; aria-label=&quot;Anchor link for: dunning-and-kruger-experiments&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Justin Kruger and David Dunning conducted several experiments (studies), each in one of the domains: humor, logical reasoning, and English grammar. In each experiment, participants—who were Cornell University students—took a test that assessed their knowledge in the domain. After the test, they were asked to assess their ability compared to other Cornell students. To be specific, participants were required to provide percentile rankings on a scale from 0 to 99. In two of the three studies, they were also asked to assess their test performance.&lt;&#x2F;p&gt;
+&lt;p&gt;Dunning and Kruger performed the following analyses for each experiment:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Assigned participants percentile ranks based on their test score, with 0 being the lowest score and 99 being the highest score.&lt;&#x2F;li&gt;
+&lt;li&gt;Calculated the average perceived ability percentile and found out that it exceeded the average test score percentile (50, by definition).&lt;&#x2F;li&gt;
+&lt;li&gt;Grouped participants in quartiles based on their test score.&lt;&#x2F;li&gt;
+&lt;li&gt;Calculated the average test score percentile and the average perceived ability percentile for each test score quartile (see the plot below).&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;debunking-dunning-kruger-effect&#x2F;dunning-kruger_study-1.png&quot; class=&quot;figure-img img-fluid my-3&quot; alt=&quot;Perceived ability to recognize humor as a function of actual test performance (Study 1)&quot; width=&quot;480px&quot;&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;&lt;p&gt;Perceived ability to recognize humor as a function of actual test performance (Study 1)&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;The plot above compares the average test score percentile and the average perceived ability percentile by test score quartile for the humor study. The plots for logical reasoning and English grammar experiments look similar. They also contain the average perceived test score percentiles that are quite close to the average perceived ability percentiles.&lt;&#x2F;p&gt;
+&lt;p&gt;The main conclusions that were drawn:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Participants overall overestimated their abilities.&lt;&#x2F;li&gt;
+&lt;li&gt;&quot;Incompetent&quot; participants grossly overestimated their ability relative to their peers.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;The second conclusion is commonly referred to as the Dunning–Kruger effect. In the rest of the post, I will focus mostly on this conclusion and on the calculations that led to it.&lt;&#x2F;p&gt;
+&lt;p&gt;Dunning and Kruger also conducted other experiments that studied participants&#x27; abilities to reassess their competence. I omit the details as they are not the main interest of this post.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;random-number-simulation&quot; class=&quot;h2&quot;&gt;Random number simulation&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#random-number-simulation&quot; aria-label=&quot;Anchor link for: random-number-simulation&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;As previously mentioned, these experiments didn&#x27;t prove the Dunning–Kruger effect. To demonstrate this, I&#x27;ll:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Simulate the experiments with random data implying that the effect is not real.&lt;&#x2F;li&gt;
+&lt;li&gt;Perform the same calculations as Dunning and Kruger.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;First, let&#x27;s generate test scores and perceived ability as correlated variables. Each point on the plot below represents a participant with a test score on the x-axis and a perceived ability on the y-axis.&lt;&#x2F;p&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;debunking-dunning-kruger-effect&#x2F;test_score_vs_perceived_ability.svg&quot; class=&quot;figure-img img-fluid mb-0 me-5 mt-3&quot; alt=&quot;Test score vs. perceived ability&quot; width=&quot;480px&quot;&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;&lt;p&gt;Test score vs. perceived ability&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;Note that the data generation process doesn&#x27;t imply that &quot;incompetent&quot; participants overestimate their abilities.&lt;&#x2F;p&gt;
+&lt;p&gt;Next, we&#x27;ll compute the percentiles for participants&#x27; test scores and perceived abilities. This is not exactly how perceived ability percentiles were obtained in the Dunning and Kruger experiment. But this is still valid for our purpose.&lt;&#x2F;p&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;debunking-dunning-kruger-effect&#x2F;percentiles.svg&quot; class=&quot;figure-img img-fluid mb-0 me-5 mt-3&quot; alt=&quot;Test score percentile vs. perceived ability percentile&quot; width=&quot;480px&quot;&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;&lt;p&gt;Test score percentile vs. perceived ability percentile&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;Finally, let&#x27;s calculate the average test score percentile and the average perceived ability percentile by test score quartiles.&lt;&#x2F;p&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;debunking-dunning-kruger-effect&#x2F;test_score_quartiles.svg&quot; class=&quot;figure-img img-fluid mb-0 me-5 mt-3&quot; alt=&quot;Average percentiles by test score quartiles&quot; width=&quot;480px&quot;&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;&lt;p&gt;Average percentiles by test score quartiles&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;For the bottom quartile, the average perceived ability percentile is higher than the average test score percentile. Feel free to try different values for the random seed, correlation coefficient (below 1), or number of participants in the &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;dunning-kruger.streamlit.app&quot;&gt;Streamlit app&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;You will always get this result for two variables with imperfect correlation. But Dunning and Kruger used this result as evidence that &quot;incompetent&quot; participants overestimated their abilities. They were wrong, as this result is a statistical artifact and the outcome of the way data is manipulated.&lt;&#x2F;p&gt;
+&lt;p&gt;Additionally, let&#x27;s use the same data to calculate the average test score percentile and the average perceived ability percentile by &lt;em&gt;perceived ability&lt;&#x2F;em&gt; quartiles.&lt;&#x2F;p&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;debunking-dunning-kruger-effect&#x2F;perceived_ability_quartiles.svg&quot; class=&quot;figure-img img-fluid mb-0 me-5 mt-3&quot; alt=&quot;Average percentiles by perceived ability quartiles&quot; width=&quot;480px&quot;&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;&lt;p&gt;Average percentiles by perceived ability quartiles&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;Participants from the bottom quartile, on average, have the lowest test scores. For them, the average perceived ability percentile is also lower than the average test score percentile. Doesn&#x27;t this contradict the Dunning–Kruger effect?&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;bias-and-percentile-measure&quot; class=&quot;h2&quot;&gt;Bias and percentile measure&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#bias-and-percentile-measure&quot; aria-label=&quot;Anchor link for: bias-and-percentile-measure&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;In fact, Dunning and Kruger did discuss the regression effect due to imperfect correlation between actual and perceived ability. But they argued that the overestimation they observed was more psychological than artifactual. The main argument was that the magnitude of miscalibration among the bottom quartile was larger than that of the top quartile.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#dunning_kruger&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;As you may have noticed, in the simulation, participants overall don&#x27;t overestimate their abilities. This is different from the Dunning and Kruger experiment. I don&#x27;t think it&#x27;s possible to generate a dataset with average perceived ability percentile higher than the average test score percentile without implying that &quot;incompetent&quot; participants grossly overestimate their abilities. The reason is that percentile is a measure with bounded support, meaning it has a finite minimum and maximum.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s take a participant with a test score which corresponds to the 99th percentile. They cannot overestimate their abilities in percentiles. Participants from the top test score quartile can overestimate their abilities by 24 percentiles maximum and 12 percentiles on average. Participants from the bottom test score quartile can overestimate their abilities by 99 percentiles maximum and 87 percentiles on average.&lt;&#x2F;p&gt;
+&lt;p&gt;If participants overall overestimate their abilities, then, with high probability, the magnitude of overestimation will be larger among participants with low test scores. And this is a pure mathematical artifact, not a psychological effect. This reasoning applies to any measure with bounded support, not just percentiles. For example, we would get the same results with test scores as a measure.&lt;&#x2F;p&gt;
+&lt;p&gt;So, the actual reason for the Dunning and Kruger observation is a combination of two factors:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Participants overall overestimated their abilities.&lt;&#x2F;li&gt;
+&lt;li&gt;Percentile is a measure with bounded support.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Also, I encourage you to think about the question: if a person scores the maximum number of points in a test, does this mean that they cannot overestimate their abilities?&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;conclusion&quot; class=&quot;h2&quot;&gt;Conclusion&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#conclusion&quot; aria-label=&quot;Anchor link for: conclusion&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Justin Kruger and David Dunning conducted several experiments and concluded that &quot;incompetent&quot; participants grossly overestimated their ability relative to their peers. This effect is known as the Dunning–Kruger effect.&lt;&#x2F;p&gt;
+&lt;p&gt;I reproduced similar results using random number simulation implying that the effect is not real. If participants overall overestimate their abilities, the magnitude of the overestimation among the participants with low scores is explained by the fact that percentile is a measure with bounded support.&lt;&#x2F;p&gt;
+&lt;p&gt;The Dunning–Kruger effect, as observed in the original experiments, is a statistical artifact rather than a psychological phenomenon.&lt;&#x2F;p&gt;
+&lt;p&gt;I don&#x27;t argue about whether the Dunning–Kruger effect is real or not. My intent is to show that the original Dunning and Kruger experiments don&#x27;t prove it.&lt;&#x2F;p&gt;
+&lt;p&gt;I created a &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;dunning-kruger.streamlit.app&quot;&gt;Streamlit app&lt;&#x2F;a&gt; as a demo for this blog post. Feel free to play with it and check out the &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;e10v&#x2F;dunning-kruger&quot;&gt;source code&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;references&quot; class=&quot;h2&quot;&gt;References&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#references&quot; aria-label=&quot;Anchor link for: references&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;wikipedia&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Dunning%E2%80%93Kruger_effect&quot;&gt;Dunning–Kruger effect – Wikipedia&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;nuhfer_2016&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;Nuhfer, Edward, Christopher Cogan, Steven Fleisher, Eric Gaze, and Karl Wirth. (2016). Random Number Simulations Reveal How Random Noise Affects the Measurements and Graphical Portrayals of Self-Assessed Competency. Numeracy 9, Iss. 1: Article 4. DOI: &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;dx.doi.org&#x2F;10.5038&#x2F;1936-4660.9.1.4&quot;&gt;http:&#x2F;&#x2F;dx.doi.org&#x2F;10.5038&#x2F;1936-4660.9.1.4&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;nuhfer_2017&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;Nuhfer, Edward, Steven Fleisher, Christopher Cogan, Karl Wirth, and Eric Gaze. (2017). How Random Noise and a Graphical Convention Subverted Behavioral Scientists&#x27; Explanations of Self-Assessment Data: Numeracy Underlies Better Alternatives. Numeracy 10, Iss. 1 : Article 4. DOI: &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;dx.doi.org&#x2F;10.5038&#x2F;1936-4660.10.1.4&quot;&gt;http:&#x2F;&#x2F;dx.doi.org&#x2F;10.5038&#x2F;1936-4660.10.1.4&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;jarry&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;Jarry, Jonathan. (2020). The Dunning-Kruger Effect Is Probably Not Real. McGill University, Office for Science and Society. Article: &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.mcgill.ca&#x2F;oss&#x2F;article&#x2F;critical-thinking&#x2F;dunning-kruger-effect-probably-not-real&quot;&gt;link&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;dunning_kruger&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
+&lt;p&gt;Kruger, J., &amp;amp; Dunning, D. (1999). Unskilled and unaware of it: How difficulties in recognizing one&#x27;s own incompetence lead to inflated self-assessments. Journal of Personality and Social Psychology, 77(6), 1121–1134. DOI: &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;psycnet.apa.org&#x2F;doi&#x2F;10.1037&#x2F;0022-3514.77.6.1121&quot;&gt;https:&#x2F;&#x2F;doi.org&#x2F;10.1037&#x2F;0022-3514.77.6.1121&lt;&#x2F;a&gt;. Open access: &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.researchgate.net&#x2F;publication&#x2F;12688660_Unskilled_and_Unaware_of_It_How_Difficulties_in_Recognizing_One%27s_Own_Incompetence_Lead_to_Inflated_Self-Assessments&quot;&gt;link&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</description>
+      </item>
+    </channel>
+</rss>

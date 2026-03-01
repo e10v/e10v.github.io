@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Evgeny Ivanov - choice modelling</title>
+    <subtitle>Insights on topics I work on and care about</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://e10v.me/tags/choice-modelling/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://e10v.me"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2023-08-28T00:00:00+00:00</updated>
+    <id>https://e10v.me/tags/choice-modelling/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Ranking in a two-sided matching platform (Part 2)</title>
+        <published>2023-08-28T00:00:00+00:00</published>
+        <updated>2023-08-28T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Evgeny Ivanov
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://e10v.me/ranking-two-sided-matching-platform-part-2/"/>
+        <id>https://e10v.me/ranking-two-sided-matching-platform-part-2/</id>
+        
+        <content type="html" xml:base="https://e10v.me/ranking-two-sided-matching-platform-part-2/">&lt;h2 id=&quot;recap&quot; class=&quot;h2&quot;&gt;Recap&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#recap&quot; aria-label=&quot;Anchor link for: recap&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;This is the second post about the ranking problem in Profi, a services marketplace where customers can find tutors, beauty masters, plumbers, and other professionals, and professionals can find customers.&lt;&#x2F;p&gt;
+&lt;p&gt;Here is the short recap of the &lt;a href=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;ranking-two-sided-matching-platform-part-1&#x2F;&quot;&gt;previous post&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;In Profi, professionals search, choose orders, and send proposals to customers. And then the customers review the proposals and choose the professionals, or don&#x27;t choose anyone. If a professional sends a proposal to a customer, and the customer chooses the professional then this is a deal.&lt;&#x2F;li&gt;
+&lt;li&gt;The objective was to increase the number of deals by implementing a new order ranking algorithm in the app for professionals.&lt;&#x2F;li&gt;
+&lt;li&gt;Ranking orders by the probability of a proposal did increase the number of proposals, but didn&#x27;t increase the number of deals in the marketplace.&lt;&#x2F;li&gt;
+&lt;li&gt;Ranking orders by the uplift in the probability of a deal significantly increased the number of deals in the marketplace.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;figure class=&quot;figure text-center mx-auto d-block mb-4&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;ranking-two-sided-matching-platform-part-2&#x2F;uplift_in_probability_of_deal.svg&quot; class=&quot;figure-img img-fluid mb-0&quot; alt=&quot;Uplift in the probability of a deal&quot; width=&quot;440px&quot;&gt;&lt;figcaption class=&quot;figure-caption&quot;&gt;&lt;p&gt;Uplift in the probability of a deal&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;&lt;&#x2F;figure&gt;
+&lt;p&gt;In the second post, I&#x27;ll explain the solution. This post is more mathematical. Please bear with me while I go through some details of the model.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;mathematical-formulation&quot; class=&quot;h2&quot;&gt;Mathematical formulation&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#mathematical-formulation&quot; aria-label=&quot;Anchor link for: mathematical-formulation&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;First, let&#x27;s express the uplift in the probability of a deal in a mathematical form:&lt;&#x2F;p&gt;
+&lt;p&gt;$$P(Y_i = 1 \mid S_{ij} = 1) - P(Y_i = 1 \mid S_{ij} = 0)$$&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$Y_i$ is an outcome for the order $i$. If there is a deal, then $Y_i = 1$, otherwise $Y_i = 0$.&lt;&#x2F;li&gt;
+&lt;li&gt;$S_{ij}$ indicates whether the professional $j$ has seen the order $i$ or not.&lt;&#x2F;li&gt;
+&lt;li&gt;$P(Y_i = 1 \mid S_{ij} = 1)$ is the probability of a deal in the order $i$, given that the professional $j$ has seen the order.&lt;&#x2F;li&gt;
+&lt;li&gt;$P(Y_i = 1 \mid S_{ij} = 0)$ is the probability of a deal in the order $i$, given that the professional $j$ hasn&#x27;t seen the order.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;It seems impossible to solve this problem directly. Hundreds of professionals should see the order for a deal to happen. Estimating the effect of showing an order to a professional would be very noisy.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s decompose the problem by expanding the expression using the law of total probability:&lt;&#x2F;p&gt;
+&lt;p&gt;$$P(T_{ij} = 1 \mid S_{ij} = 1)(P(Y_i = 1 \mid T_{ij} = 1) - P(Y_i = 1 \mid T_{ij} = 0))$$&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$T_{ij}$ indicates whether the professional $j$ has sent a proposal to the customer $i$ or not.&lt;&#x2F;li&gt;
+&lt;li&gt;$P(T_{ij} = 1 \mid S_{ij} = 1)$ is the probability that the professional $j$ will send a proposal to the customer $i$, given that the professional has seen the order.&lt;&#x2F;li&gt;
+&lt;li&gt;$P(Y_i = 1 \mid T_{ij} = 1)$ is the probability of a deal in the order $i$, given that the professional $j$ has sent a proposal to the customer.&lt;&#x2F;li&gt;
+&lt;li&gt;$P(Y_i = 1 \mid T_{ij} = 0)$ is the probability of a deal in the order $i$, given that the professional $j$ hasn&#x27;t sent a proposal to the customer.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;div class=&quot;accordion mb-3&quot;&gt;
+  &lt;div class=&quot;accordion-item&quot;&gt;
+    &lt;p class=&quot;accordion-header&quot;&gt;
+      &lt;a class=&quot;d-flex collapsed&quot; data-bs-toggle=&quot;collapse&quot; href=&quot;#uplift-derivation&quot; role=&quot;button&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;myid&quot;&gt;
+        Derivation
+        &lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;currentColor&quot; class=&quot;bi ms-auto&quot; viewBox=&quot;0 0 16 16&quot;&gt;
+          &lt;use href=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;icons.svg#chevron-down&quot;&gt;&lt;&#x2F;use&gt;
+        &lt;&#x2F;svg&gt;
+      &lt;&#x2F;a&gt;
+    &lt;&#x2F;p&gt;
+    &lt;div id=&quot;uplift-derivation&quot; class=&quot;accordion-collapse collapse&quot;&gt;
+      &lt;div class=&quot;accordion-body&quot;&gt;
+        &lt;p&gt;Let&#x27;s expand the left and the right part of the uplift expression:&lt;&#x2F;p&gt;
+&lt;p&gt;
+$$
+\small
+\begin{split}
+P(Y_i = 1 \mid S_{ij} = 1) &amp; = P(Y_i = 1 \mid T_{ij} = 1)P(T_{ij} = 1 \mid S_{ij} = 1) \\
+&amp; \quad + P(Y_i = 1 \mid T_{ij} = 0)P(T_{ij} = 0 \mid S_{ij} = 1) \\
+&amp; = P(Y_i = 1 \mid T_{ij} = 1)P(T_{ij} = 1 \mid S_{ij} = 1) \\
+&amp; \quad + P(Y_i = 1 \mid T_{ij} = 0)(1 - P(T_{ij} = 1 \mid S_{ij} = 1)) \\
+&amp; = P(T_{ij} = 1 \mid S_{ij} = 1)(P(Y_i = 1 \mid T_{ij} = 1) - P(Y_i = 1 \mid T_{ij} = 0)) \\
+&amp; \quad + P(Y_i = 1 \mid T_{ij} = 0) \\
+\\
+P(Y_i = 1 \mid S_{ij} = 0) &amp; = P(Y_i = 1 \mid T_{ij} = 1)P(T_{ij} = 1 \mid S_{ij} = 0) \\
+&amp; \quad + P(Y_i = 1 \mid T_{ij} = 0)P(T_{ij} = 0 \mid S_{ij} = 0) \\
+&amp; = P(Y_i = 1 \mid T_{ij} = 0) \\
+\end{split}
+$$
+&lt;&#x2F;p&gt;
+&lt;p&gt;The last equation takes into account that a professional cannot send a proposal without seeing the order, i.e.:&lt;&#x2F;p&gt;
+&lt;p&gt;
+$$
+\small
+\begin{split}
+&amp; P(T_{ij} = 1 \mid S_{ij} = 0) = 0 \\
+&amp; P(T_{ij} = 0 \mid S_{ij} = 0) = 1
+\end{split}
+$$
+&lt;&#x2F;p&gt;
+&lt;p&gt;Now, we can derive that:&lt;&#x2F;p&gt;
+&lt;p&gt;
+$$
+\small
+\begin{split}
+&amp; P(Y_i = 1 \mid S_{ij} = 1) - P(Y_i = 1 \mid S_{ij} = 0) \\
+= P(T_{ij} = 1 \mid S_{ij} = 1)(&amp; P(Y_i = 1 \mid T_{ij} = 1) - P(Y_i = 1 \mid T_{ij} = 0))
+\end{split}
+$$
+&lt;&#x2F;p&gt;
+
+      &lt;&#x2F;div&gt;
+    &lt;&#x2F;div&gt;
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;We already have a &lt;a href=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;ranking-two-sided-matching-platform-part-1&#x2F;#probability-of-a-proposal&quot;&gt;model&lt;&#x2F;a&gt; that predicts $P(T_{ij} = 1 \mid S_{ij} = 1)$, the probability that the professional $j$ will send a proposal to the customer $i$.&lt;&#x2F;p&gt;
+&lt;p&gt;So, now the problem reduces to predicting the uplift in the probability of a deal caused by a proposal from the professional:&lt;&#x2F;p&gt;
+&lt;p&gt;$$P(Y_i = 1 \mid T_{ij} = 1) - P(Y_i = 1 \mid T_{ij} = 0)$$&lt;&#x2F;p&gt;
+&lt;p&gt;To solve the problem, we&#x27;ll create a model for the probability of a deal in the order. The difference between the probabilities of a deal with and without a proposal from the professional is the uplift we want to predict.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;discrete-choice-model&quot; class=&quot;h2&quot;&gt;Discrete choice model&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#discrete-choice-model&quot; aria-label=&quot;Anchor link for: discrete-choice-model&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;A customer can choose one of the professionals who sent a proposal, or not choose anyone.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s model customer&#x27;s choice with the softmax function:&lt;&#x2F;p&gt;
+&lt;p&gt;$$P(Y_{ik}=1) = \frac{e^{U_{ik}}}{e^{U_{i0}} + \sum_{j \in J_i} e^{U_{ij}}} = \frac{e^{U_{ik}-U_{i0}}}{1 + \sum_{j \in J_i} e^{U_{ij}-U_{i0}}}$$&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$Y_{ik}$ indicates whether the customer $i$ chooses the professional $k$ or not.&lt;&#x2F;li&gt;
+&lt;li&gt;$P(Y_{ik}=1)$ is the probability that the customer $i$ will choose the professional $k$.&lt;&#x2F;li&gt;
+&lt;li&gt;$U_{ij}$ (or $U_{ik}$) is the utility the customer $i$ obtains from choosing the professional $j$ (or $k$).&lt;&#x2F;li&gt;
+&lt;li&gt;$U_{i0}$ is the utility the customer $i$ obtains from not choosing anyone.&lt;&#x2F;li&gt;
+&lt;li&gt;$J_i$ is a set of professionals who sent a proposal to the customer $i$.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This model assumes no correlation among alternatives. This might not be 100% true. But we decided to proceed with this model:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Given that customers and professionals have unique preferences that only they can discover, this assumption seems realistic.&lt;&#x2F;li&gt;
+&lt;li&gt;Taking into account the sequential number of the proposal in the order can capture correlations between proposals.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Now, we can express the probability that the customer will choose one of the professionals who sent a proposal:&lt;&#x2F;p&gt;
+&lt;p&gt;$$P(Y_i=1) = \sum_{j \in J_i} P(Y_{ij}=1) = \frac{\sum_{j \in J_i} e^{U_{ij}-U_{i0}}}{1 + \sum_{j \in J_i} e^{U_{ij}-U_{i0}}}$$&lt;&#x2F;p&gt;
+&lt;p&gt;Suppose the customer $i$ has received proposals from a set of professionals $J_i$. Then the uplift in the probability of a deal caused by a proposal from the professional $k$ will be:&lt;&#x2F;p&gt;
+&lt;p&gt;
+$$
+\begin{split}
+&amp; P(Y_i = 1 \mid T_{ik} = 1) - P(Y_i = 1 \mid T_{ik} = 0) \\
+&amp; = \frac{\sum_{j \in J_i} e^{U_{ij}-U_{i0}} + e^{U_{ik}-U_{i0}}}{1 + \sum_{j \in J_i} e^{U_{ij}-U_{i0}} + e^{U_{ik}-U_{i0}}}
+- \frac{\sum_{j \in J_i} e^{U_{ij}-U_{i0}}}{1 + \sum_{j \in J_i} e^{U_{ij}-U_{i0}}} \\
+&amp; = \frac{e^{U_{ik}-U_{i0}}}{(1 + \sum_{j \in J_i} e^{U_{ij}-U_{i0}})(1 + \sum_{j \in J_i} e^{U_{ij}-U_{i0}} + e^{U_{ik}-U_{i0}})}
+\end{split}
+$$
+&lt;&#x2F;p&gt;
+&lt;p&gt;If we can model the utility, we can estimate the uplift in the probability of a deal.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;utility-function&quot; class=&quot;h2&quot;&gt;Utility function&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#utility-function&quot; aria-label=&quot;Anchor link for: utility-function&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;The utility a customer obtains from choosing a professional depends on:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;How much time has passed from the moment of the order to the proposal from the professional.&lt;&#x2F;li&gt;
+&lt;li&gt;The rating and the number of reviews in the professional&#x27;s profile.&lt;&#x2F;li&gt;
+&lt;li&gt;When the customer was last online.&lt;&#x2F;li&gt;
+&lt;li&gt;And other factors.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;If we represent the utility as a function of these variables, then the parameters of the function can be estimated by minimizing the cross-entropy (maximum likelihood estimation):&lt;&#x2F;p&gt;
+&lt;p&gt;
+$$
+\begin{split}
+H(Y, P(Y)) &amp; = -\sum_i (Y_i \log P(Y_i = 1) + (1 - Y_i) \log P(Y_i = 0)) \\
+&amp; = \sum_i (\log (1 + \sum_{j \in J_i} e^{U_{ij}-U_{i0}}) - Y_i \log (\sum_{j \in J_i} e^{U_{ij}-U_{i0}}))
+\end{split}
+$$
+&lt;&#x2F;p&gt;
+&lt;p&gt;We started with a basic model that accounts only for how much time has passed from the moment of the order to the proposal from the professional. And this basic model helped us significantly increase the number of deals.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;combined-target&quot; class=&quot;h2&quot;&gt;Combined target&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#combined-target&quot; aria-label=&quot;Anchor link for: combined-target&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Let&#x27;s review the components of the successful solution:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;A model $f(X_1)$ that takes a feature set $X_1$ and predicts the probability that the professional will send a proposal to the customer.&lt;&#x2F;li&gt;
+&lt;li&gt;A model $g(X_2)$ that takes a feature set $X_2$ and predicts the uplift in the probability of a deal in the order caused by a proposal from the professional.&lt;&#x2F;li&gt;
+&lt;li&gt;Orders are sorted by the product of these models&#x27; predictions $f(X_1) g(X_2)$.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This solution has its disadvantages:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Using two models in production increases the complexity of the solution.&lt;&#x2F;li&gt;
+&lt;li&gt;The model $f(X_1)$ should predict the probability. This limits how the model can be improved. For example, the loss function is the cross-entropy. We cannot use loss functions that are more suitable for the learning to rank problem.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;These disadvantages can be resolved by training a model on a combined target. Instead of training a model $f(X_1)$ on an indicator of a proposal $y$, we can train a model $h(X_1, X_2)$ on a combined target $y g(X_2)$. This solution resulted in a further increase in the number of deals.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;conclusions&quot; class=&quot;h2&quot;&gt;Conclusions&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#conclusions&quot; aria-label=&quot;Anchor link for: conclusions&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;In two posts I explored the ranking problem in a services marketplace. It&#x27;s a two-sided matching platform where both sides have to choose each other for a deal to happen. I explained the solution that significantly increased the number of deals in the marketplace.&lt;&#x2F;p&gt;
+&lt;p&gt;The right problem formulation is more important than a sophisticated solution. When one side searches and proposes, and the other side chooses among the proposals, it&#x27;s not sufficient to maximize the probability of a proposal. Ranking by the uplift in the probability of a deal increased the number of deals in the marketplace.&lt;&#x2F;p&gt;
+&lt;p&gt;When two sides choose, it makes sense to model two processes separately:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Probability of a proposal from the side that chooses first.&lt;&#x2F;li&gt;
+&lt;li&gt;Uplift in the probability of a match caused by a proposal.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;A discrete choice model can be used to estimate the uplift in the probability of a match.&lt;&#x2F;p&gt;
+&lt;p&gt;If one of the models should predict the probability measure, it limits the model improvements. Training a single model on a combined target can resolve this issue.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
