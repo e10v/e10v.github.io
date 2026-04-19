@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Evgeny Ivanov - market design</title>
+    <subtitle>Blog about data science, decision making, economics, management, and other topics that interest me</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://e10v.me/tags/market-design/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://e10v.me"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-04-19T00:00:00+00:00</updated>
+    <id>https://e10v.me/tags/market-design/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Open source contribution and job search as matching markets under AI-induced congestion</title>
+        <published>2026-04-18T00:00:00+00:00</published>
+        <updated>2026-04-19T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Evgeny Ivanov
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://e10v.me/matching-markets-congestion/"/>
+        <id>https://e10v.me/matching-markets-congestion/</id>
+        
+        <content type="html" xml:base="https://e10v.me/matching-markets-congestion/">&lt;p&gt;In &lt;a href=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;prices-as-model-weights&#x2F;&quot;&gt;one of my previous posts&lt;&#x2F;a&gt;, I discussed congestion in the job market caused by the surge of AI tools that scrape job descriptions and auto-apply to jobs. I suggested pay-to-apply as a possible solution, where payment is made with platform-issued virtual points available in limited supply rather than real money. I focused more on explaining why dynamic pricing can solve the problem better than AI screening tools, and I did not go into the details of matching market design.&lt;&#x2F;p&gt;
+&lt;p&gt;Since that post, another problem has emerged: progress in the capabilities of coding agents has caused a sharp rise in vibe-coded pull requests in open source repositories on GitHub. This problem can also be framed as a matching market congestion problem.&lt;&#x2F;p&gt;
+&lt;p&gt;This problem is not particularly new. It is well researched and described in detail in &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.amazon.com&#x2F;Who-Gets-What-Why-Matchmaking&#x2F;dp&#x2F;0544705289&#x2F;&quot;&gt;&quot;Who Gets What―and Why: The New Economics of Matchmaking and Market Design&quot;&lt;&#x2F;a&gt; by Alvin Roth, a winner of the Nobel Prize in Economics.&lt;&#x2F;p&gt;
+&lt;p&gt;I became familiar with the problem while working in a services marketplace and &lt;a href=&quot;https:&#x2F;&#x2F;e10v.me&#x2F;ranking-two-sided-matching-platform-part-1&#x2F;&quot;&gt;solving&lt;&#x2F;a&gt; matching-market-related problems there. That gave me direct practical experience with the typical issues. In this post, I want to share that experience and knowledge.&lt;&#x2F;p&gt;
+&lt;p&gt;I explore the services marketplace, a dating platform, job search, and open source contribution through the lens of matching market design and identify a common pattern: lowering search and application costs leads to more applications, resulting in less effective matching due to reviewer overload.&lt;&#x2F;p&gt;
+&lt;p&gt;I argue that just automating application screening and review with AI doesn&#x27;t fully resolve the problem. In some cases, it makes it even worse by creating a self-reinforcing feedback loop: more applications → more automated filtering → even more applications. AI automation tools lack private information about applicant fit and intent.&lt;&#x2F;p&gt;
+&lt;p&gt;As an alternative, I propose to redesign incentives so applicants bear more of the cost of low-value submissions and use their private knowledge to apply more carefully. The proposed solution is a reputation-credit-based system for GitHub-like platforms: non-transferable reputation credits are earned through valuable contributions and debited through low-quality pull requests and issues.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;em&gt;Warning: this is a long read. I wrote it myself and only used AI to check for grammar, punctuation, logical errors, and awkward wording. I really hope you find it interesting and useful.&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;matching-markets&quot; class=&quot;h2&quot;&gt;Matching markets&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#matching-markets&quot; aria-label=&quot;Anchor link for: matching-markets&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;difference-between-matching-and-commodity-markets&quot; class=&quot;h4&quot;&gt;Difference between matching and commodity markets&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#difference-between-matching-and-commodity-markets&quot; aria-label=&quot;Anchor link for: difference-between-matching-and-commodity-markets&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;A two-sided &lt;em&gt;matching market&lt;&#x2F;em&gt; is a market in which both sides have to make a choice to get what they want, unlike a &lt;em&gt;commodity market&lt;&#x2F;em&gt;, where only one side chooses. Amazon is an example of a commodity marketplace: when a customer places an order, the seller does not get to choose whether to sell to that customer. Examples of matching markets include:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Job market.&lt;&#x2F;li&gt;
+&lt;li&gt;Dating platforms, like Tinder and Bumble.&lt;&#x2F;li&gt;
+&lt;li&gt;Platforms for freelancers, like Upwork and Fiverr.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Generally, turning a matching market into a commodity market increases the number of matches. For example, Airbnb increased the number of bookings on the platform when it introduced the instant book feature, eliminating the host approval step.&lt;&#x2F;p&gt;
+&lt;p&gt;Not all matching markets can be effectively turned into commodity markets, because both sides can have unique preferences that can be resolved only through interaction.&lt;&#x2F;p&gt;
+&lt;p&gt;For simplicity, I consider only &lt;em&gt;two-sided&lt;&#x2F;em&gt; markets here.&lt;&#x2F;p&gt;
+&lt;div class=&quot;accordion mb-3&quot;&gt;
+  &lt;div class=&quot;accordion-item&quot;&gt;
+    &lt;p class=&quot;accordion-header&quot;&gt;
+      &lt;a class=&quot;d-flex collapsed&quot; data-bs-toggle=&quot;collapse&quot; href=&quot;#commodity-market&quot; role=&quot;button&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;myid&quot;&gt;
+        Note on the &amp;quot;commodity market&amp;quot; term
+        &lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;currentColor&quot; class=&quot;bi ms-auto&quot; viewBox=&quot;0 0 16 16&quot;&gt;
+          &lt;use href=&quot;&#x2F;icons.svg#chevron-down&quot;&gt;&lt;&#x2F;use&gt;
+        &lt;&#x2F;svg&gt;
+      &lt;&#x2F;a&gt;
+    &lt;&#x2F;p&gt;
+    &lt;div id=&quot;commodity-market&quot; class=&quot;accordion-collapse collapse&quot;&gt;
+      &lt;div class=&quot;accordion-body&quot;&gt;
+        &lt;p&gt;The meaning of the term &quot;commodity market&quot; used here may not be standard. I adopted it from &quot;Who Gets What—and Why&quot; by Alvin Roth.&lt;&#x2F;p&gt;
+
+      &lt;&#x2F;div&gt;
+    &lt;&#x2F;div&gt;
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;&lt;h3 id=&quot;optimal-matching-problem-and-market-failure&quot; class=&quot;h4&quot;&gt;Optimal matching problem and market failure&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#optimal-matching-problem-and-market-failure&quot; aria-label=&quot;Anchor link for: optimal-matching-problem-and-market-failure&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;In a simplified form, the matching problem can be framed as maximizing the total &lt;em&gt;number of matches&lt;&#x2F;em&gt; given a number of searchers on each side of the market. An example from the job market is maximizing the number of hires given a number of candidates and a number of vacancies.&lt;&#x2F;p&gt;
+&lt;p&gt;In reality, not all matches are equal. For example, a candidate&#x27;s satisfaction depends on the job they find, and a firm&#x27;s performance depends on the candidate it hires. So the quality of matches matters. In other words, different matches have different &lt;em&gt;economic value&lt;&#x2F;em&gt; for both sides of a market.&lt;&#x2F;p&gt;
+&lt;p&gt;In a more precise form, the matching problem can be framed as maximizing the total value created for both sides of the market by the matches that are formed. When the actual value from formed matches is lower than it could be, I will call it a &lt;em&gt;market failure&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;In other words, there are two possible market failure indicators:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fewer matches are formed than possible.&lt;&#x2F;li&gt;
+&lt;li&gt;Average match quality is lower than possible.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;market-friction-and-congestion&quot; class=&quot;h4&quot;&gt;Market friction and congestion&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#market-friction-and-congestion&quot; aria-label=&quot;Anchor link for: market-friction-and-congestion&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;em&gt;Market friction&lt;&#x2F;em&gt; is any obstacle that makes it harder for mutually good matches to form, leading to market failure. That includes search costs, application costs, incomplete information, screening costs, interaction costs, communication delays, and similar barriers.&lt;&#x2F;p&gt;
+&lt;p&gt;There is also a more specific &lt;em&gt;congestion&lt;&#x2F;em&gt; problem: there are too many potential interactions to process in the time or attention available. In matching markets, this shows up when hospitals, schools, firms, or users receive more applications, messages, or candidates than they can reasonably evaluate, so some promising opportunities are never screened or are screened too late.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;matching-market-examples&quot; class=&quot;h2&quot;&gt;Matching market examples&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#matching-market-examples&quot; aria-label=&quot;Anchor link for: matching-market-examples&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;services-marketplace&quot; class=&quot;h4&quot;&gt;Services marketplace&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#services-marketplace&quot; aria-label=&quot;Anchor link for: services-marketplace&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;As the first example, let&#x27;s consider a services marketplace: a two-sided matching platform where customers can find professionals, and professionals can find customers.&lt;&#x2F;p&gt;
+&lt;p&gt;The matching process:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Customers place orders and describe the details of the work.&lt;&#x2F;li&gt;
+&lt;li&gt;Professionals search, choose orders, and send proposals to the customers.&lt;&#x2F;li&gt;
+&lt;li&gt;The customers review the proposals and choose the professionals, or do not choose anyone.&lt;&#x2F;li&gt;
+&lt;li&gt;If a professional sends a proposal to a customer, and the customer chooses the professional, that results in a deal.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Professionals pay the marketplace for opportunities and deals. Market efficiency heavily depends on the monetization model. Possible options:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Pay-to-apply: a professional pays for each proposal they send to a customer.&lt;&#x2F;li&gt;
+&lt;li&gt;Pay-per-contact: a professional pays for a customer&#x27;s phone number, with the customer&#x27;s approval. This contact exchange happens after the professional&#x27;s proposal, the customer&#x27;s review of that proposal, and some interaction between the professional and the customer in the built-in chat.&lt;&#x2F;li&gt;
+&lt;li&gt;Pay-per-deal: a professional pays for a deal with a customer, the last step of the funnel.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Pay-to-apply is an example of a matching market application cost, a particular case of market friction. It turns out that reducing this friction by implementing pay-per-contact or pay-per-deal models can create a congestion problem and cause a market failure. How can this happen?&lt;&#x2F;p&gt;
+&lt;div class=&quot;accordion mb-3&quot;&gt;
+  &lt;div class=&quot;accordion-item&quot;&gt;
+    &lt;p class=&quot;accordion-header&quot;&gt;
+      &lt;a class=&quot;d-flex collapsed&quot; data-bs-toggle=&quot;collapse&quot; href=&quot;#why-both-sides-choose&quot; role=&quot;button&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;myid&quot;&gt;
+        Why both sides have to choose
+        &lt;svg xmlns=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;currentColor&quot; class=&quot;bi ms-auto&quot; viewBox=&quot;0 0 16 16&quot;&gt;
+          &lt;use href=&quot;&#x2F;icons.svg#chevron-down&quot;&gt;&lt;&#x2F;use&gt;
+        &lt;&#x2F;svg&gt;
+      &lt;&#x2F;a&gt;
+    &lt;&#x2F;p&gt;
+    &lt;div id=&quot;why-both-sides-choose&quot; class=&quot;accordion-collapse collapse&quot;&gt;
+      &lt;div class=&quot;accordion-body&quot;&gt;
+        &lt;p&gt;At this point, I want to explain why both sides have to choose in this particular marketplace. It is a horizontal marketplace covering over 900 types of services. Orders cannot be fully formalized, so some preferences on both sides still have to be resolved through interaction between a professional and a customer.&lt;&#x2F;p&gt;
+
+      &lt;&#x2F;div&gt;
+    &lt;&#x2F;div&gt;
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Let&#x27;s consider the step in which professionals search and evaluate orders. Their experience allows them to estimate the likelihood of a deal for each particular order. Careful evaluation before deciding whether to apply can reduce application costs. But evaluation consumes time and cognitive resources. It makes sense only when evaluation costs outweigh the reduction in application costs.&lt;&#x2F;p&gt;
+&lt;p&gt;When &lt;em&gt;pay-to-apply&lt;&#x2F;em&gt; is the only monetization model, careful evaluation before sending a proposal to a customer reduces total cost per deal. By cost, I mean time, money, and cognitive resources.&lt;&#x2F;p&gt;
+&lt;p&gt;With &lt;em&gt;pay-per-contact&lt;&#x2F;em&gt; or &lt;em&gt;pay-per-deal&lt;&#x2F;em&gt;, the application cost is lower. In that case, it is less rational for professionals to spend time evaluating orders, because it does not save them much: they can always refuse after a short interaction with a customer. Moreover, skipping evaluation helps them be the first to apply, which increases the chances of a deal. So these monetization models create incentives for professionals to send proposals to as many new orders as they can find with minimal evaluation.&lt;&#x2F;p&gt;
+&lt;p&gt;This behavior can create a congestion problem:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;There are too many proposals for customers to process.&lt;&#x2F;li&gt;
+&lt;li&gt;Some proposals are not considered, including potentially the best matches.&lt;&#x2F;li&gt;
+&lt;li&gt;Some deals do not happen. And even when they do, they are not optimal in terms of economic value for either customers or professionals.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;There are two ways the marketplace can mitigate this problem:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Use &lt;em&gt;pay-to-apply&lt;&#x2F;em&gt; as the only monetization model.&lt;&#x2F;li&gt;
+&lt;li&gt;Implement &lt;em&gt;pay-per-contact&lt;&#x2F;em&gt; and&#x2F;or &lt;em&gt;pay-per-deal&lt;&#x2F;em&gt; with restrictions:
+&lt;ul&gt;
+&lt;li&gt;Limit the number of proposals a professional can send per unit of time, depending on their individual conversion from proposal to a &quot;useful interaction&quot;.&lt;&#x2F;li&gt;
+&lt;li&gt;Limit and&#x2F;or delay the access to the most popular orders, depending on professionals&#x27; individual conversion from proposal to a &quot;useful interaction&quot;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h3 id=&quot;dating-platform&quot; class=&quot;h4&quot;&gt;Dating platform&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#dating-platform&quot; aria-label=&quot;Anchor link for: dating-platform&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;Dating platforms are another example of matching markets. Let&#x27;s consider Tinder:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;People create a profile with photos and a short bio, then browse nearby users.&lt;&#x2F;li&gt;
+&lt;li&gt;You swipe right if you’re interested and left if you’re not.&lt;&#x2F;li&gt;
+&lt;li&gt;If two people both swipe right on each other, it becomes a match and they can chat in the app.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;We will focus on male-female matching there. The market design is symmetrical, but the market balance is not: there are roughly three men for every one woman. The probability of a match is much lower for men. In this example, men are the long side of the market, while women are the short side. The long side can be viewed as the side that searches and applies, and the short side as the side that reviews and approves or rejects.&lt;&#x2F;p&gt;
+&lt;p&gt;Under a 3:1 market balance, screening each profile thoroughly before swiping becomes exhausting. This leads to the following behavior:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Many users on the long side swipe right on almost everyone. Only after there is a match do they screen it and decide whether to start a chat.&lt;&#x2F;li&gt;
+&lt;li&gt;Users on the short side get overloaded and must spend more effort screening.&lt;&#x2F;li&gt;
+&lt;li&gt;As users on the short side face more noise, they become more selective, and the cycle reinforces itself.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This is another example of the congestion problem.&lt;&#x2F;p&gt;
+&lt;p&gt;Tinder limits the number of right-swipes for free-tier users, but it is unlimited on paid subscriptions.&lt;&#x2F;p&gt;
+&lt;p&gt;In the paper &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;ssrn.com&#x2F;abstract=3004814&quot;&gt;&quot;Facilitating the Search for Partners on Matching Platforms&quot;&lt;&#x2F;a&gt;, Yash Kanoria and Daniela Saban explain dating platform users&#x27; behavior with a theoretical model. They also propose a market design to deal with the congestion problem: force the short side of the market to initiate contact with potential partners, by disallowing the long side from doing so.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;markets-with-ai-induced-congestion-problem&quot; class=&quot;h2&quot;&gt;Markets with AI-induced congestion problem&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#markets-with-ai-induced-congestion-problem&quot; aria-label=&quot;Anchor link for: markets-with-ai-induced-congestion-problem&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;job-market&quot; class=&quot;h4&quot;&gt;Job market&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#job-market&quot; aria-label=&quot;Anchor link for: job-market&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;In the job market, congestion occurs when too many candidates apply for a job. Recruiters&#x27; and hiring managers&#x27; attention is scarce. As a result, some applications are not considered, some are considered too late, and good candidates are rejected.&lt;&#x2F;p&gt;
+&lt;p&gt;In some segments, the problem already existed in the pre-AI era. AI tools have taken it to the next level:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Candidates use AI to find and submit more applications faster.&lt;&#x2F;li&gt;
+&lt;li&gt;Employers respond with more AI screening.&lt;&#x2F;li&gt;
+&lt;li&gt;That creates a self-reinforcing feedback loop.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;AI tools reduce employers&#x27; screening costs, but that can still lead to market failure because of information asymmetry:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;No matter how advanced the AI models are, they lack crucial information about a candidate&#x27;s fit for the job, and that limits their predictive ability.&lt;&#x2F;li&gt;
+&lt;li&gt;As a result, good candidates are rejected, including potentially the best fit, and less economic value is created.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;A better solution would be to encourage candidates to use their own knowledge of their skills, screen jobs more carefully, and apply more selectively. In other words, we need better market design, not just better tools using the same information.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;open-source-contribution-market&quot; class=&quot;h4&quot;&gt;Open source contribution market&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#open-source-contribution-market&quot; aria-label=&quot;Anchor link for: open-source-contribution-market&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;Open source contributions can also be viewed as a matching market with two sides: contributors and projects.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Developers select the projects they want to contribute to, develop new features or fix bugs, and then create pull requests to merge their changes.&lt;&#x2F;li&gt;
+&lt;li&gt;Project members screen and review the suggested changes, provide feedback, and then merge or reject them.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Progress in the capabilities of AI coding agents has made it possible to create more contributions. Moreover, these tools have lowered the barrier to entry for new contributors. As a result, the number of pull requests in popular projects has increased, but their average quality has decreased.&lt;&#x2F;p&gt;
+&lt;p&gt;In many cases, project members do not have enough capacity to review all incoming pull requests. As a result, some high-quality contributions are not accepted or not even considered, and fewer useful features and fixes are merged. In other words, less value is created, and the market fails.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;common-pattern&quot; class=&quot;h2&quot;&gt;Common pattern&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#common-pattern&quot; aria-label=&quot;Anchor link for: common-pattern&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;A common pattern across the examples above:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Lowering search and application costs increases the number of applications.&lt;&#x2F;li&gt;
+&lt;li&gt;Reviewers&#x27; capacity is limited, review and interaction costs are high relative to search and application costs.&lt;&#x2F;li&gt;
+&lt;li&gt;Some applications are considered with a delay or not considered at all.&lt;&#x2F;li&gt;
+&lt;li&gt;As a result, fewer matches are formed and average value per match decreases.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;In some cases, there is an effort to increase review capacity by automating part of the process. This is often not very effective and can reinforce the feedback loop: more applications → stricter review → even more applications. The reason is information asymmetry: the reviewing side has limited information and cannot automate selection effectively; a costly interaction with the applicant is often needed to resolve preferences.&lt;&#x2F;p&gt;
+&lt;p&gt;From my personal experience in a services marketplace, the following changes in market design can be more effective:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Increasing application cost.&lt;&#x2F;li&gt;
+&lt;li&gt;Implementing personalized restrictions based on the applicant&#x27;s &quot;reputation&quot; and the efficiency of previous applications.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The main reason this works better is that applicants are pushed to screen and apply more selectively, using the &lt;em&gt;information available only to them&lt;&#x2F;em&gt;, such as their skills and preferences.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;market-design-proposition&quot; class=&quot;h2&quot;&gt;Market design proposition&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#market-design-proposition&quot; aria-label=&quot;Anchor link for: market-design-proposition&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;goal-and-hypothesis&quot; class=&quot;h4&quot;&gt;Goal and hypothesis&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#goal-and-hypothesis&quot; aria-label=&quot;Anchor link for: goal-and-hypothesis&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;In this section, I propose a new design for the open source contribution market. Since most open source projects are hosted on a single platform, GitHub, and most interactions happen there, it is more feasible to implement than a similar design would be in the job market.&lt;&#x2F;p&gt;
+&lt;p&gt;The goal is to increase the number of valuable merged contributions while decreasing the time and attention project members spend reviewing low-value pull requests and issues.&lt;&#x2F;p&gt;
+&lt;p&gt;The hypothesis is that the suggested market design would drive two evolutionary processes:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Mutation: contributors would change their behavior by creating more useful and fewer low-value pull requests and issues.&lt;&#x2F;li&gt;
+&lt;li&gt;Selection: low-value contributors unwilling to adapt would be restricted from creating pull requests and issues.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The difference from biological evolution is that mutation is not random.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;rules-and-processes&quot; class=&quot;h4&quot;&gt;Rules and processes&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#rules-and-processes&quot; aria-label=&quot;Anchor link for: rules-and-processes&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;First, let&#x27;s introduce new concepts and rules:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Creating a pull request or an issue requires a &lt;em&gt;deposit&lt;&#x2F;em&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;The deposit requirement is denominated in &lt;em&gt;reputation credits&lt;&#x2F;em&gt; and set by project owners.&lt;&#x2F;li&gt;
+&lt;li&gt;Both contributors and projects have reputation credit balances.&lt;&#x2F;li&gt;
+&lt;li&gt;By default, a contributor cannot create a pull request or an issue if their credit balance is below the deposit requirement.&lt;&#x2F;li&gt;
+&lt;li&gt;Both sides earn reputation credits through merged pull requests.&lt;&#x2F;li&gt;
+&lt;li&gt;Reputation credits can also be provided or loaned by the platform under certain conditions.&lt;&#x2F;li&gt;
+&lt;li&gt;Reputation credits cannot be bought or sold in exchange for real-world money.&lt;&#x2F;li&gt;
+&lt;li&gt;Reputation credits cannot be transferred between contributors or projects.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Matching process for pull requests:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;A contributor creates a pull request.&lt;&#x2F;li&gt;
+&lt;li&gt;The deposit for the pull request is reserved from their balance.&lt;&#x2F;li&gt;
+&lt;li&gt;Project members review the pull request and interact with the contributor, including through code changes in the pull request.&lt;&#x2F;li&gt;
+&lt;li&gt;As a result of interaction, the pull request is either merged or rejected.&lt;&#x2F;li&gt;
+&lt;li&gt;If the pull request is merged, the reserved deposit is returned to the contributor&#x27;s balance. Also, additional credits are issued and added to both the contributor&#x27;s and the project&#x27;s balances. The amount is determined by the contributor&#x27;s and the project&#x27;s credit balances.&lt;&#x2F;li&gt;
+&lt;li&gt;If the pull request is rejected, the reserved deposit is debited from the contributor&#x27;s balance, but not added to the project&#x27;s balance. As an exception, project members can choose not to debit the contributor&#x27;s balance, or to debit it only partially. This does not affect the project balance in any way.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Matching process for issues is similar, with an exception: additional credits are not added to the contributor or the project balances.&lt;&#x2F;p&gt;
+&lt;p&gt;Additional details:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Deposit requirements can differ among projects, they are defined by project members.&lt;&#x2F;li&gt;
+&lt;li&gt;In general, deposit requirements differ for creating pull requests and issues.&lt;&#x2F;li&gt;
+&lt;li&gt;The deposit requirement for a pull request can have fixed and variable components, for example per &lt;em&gt;net&lt;&#x2F;em&gt; LOC added.&lt;&#x2F;li&gt;
+&lt;li&gt;To avoid wrong incentives, credit balances are visible only to their owners.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;For more details, see Appendix A below, where I consider possible issues and edge cases: reputation gaming, system initialization, entry barriers and onboarding for new contributors, and reputation expiration.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;why-it-should-work&quot; class=&quot;h4&quot;&gt;Why it should work&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#why-it-should-work&quot; aria-label=&quot;Anchor link for: why-it-should-work&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;The deposit requirement plays the same role in balancing supply (contributors) and demand (projects) as prices do in more traditional markets. Project members can use it to adjust the quantity and quality of incoming pull requests and issues.&lt;&#x2F;p&gt;
+&lt;p&gt;Popular projects are expected to have higher deposit requirements on average.&lt;&#x2F;p&gt;
+&lt;p&gt;The design increases application costs for contributors and pushes them to put more care into pull requests and issues.&lt;&#x2F;p&gt;
+&lt;p&gt;Contributors with low-quality pull requests and issues will have lower credit balances and thus be restricted from contributing to popular projects.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;conclusions&quot; class=&quot;h2&quot;&gt;Conclusions&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#conclusions&quot; aria-label=&quot;Anchor link for: conclusions&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;In this post, I examine job search and open source contribution as matching markets under congestion: AI tools lower search and application costs, which can increase volume while reducing matching quality.&lt;&#x2F;p&gt;
+&lt;p&gt;When submitting an application or pull request becomes cheap, applicants screen and apply less carefully and send more low-value attempts. Because reviewer attention is scarce, some high-value submissions are reviewed too late or not at all.&lt;&#x2F;p&gt;
+&lt;p&gt;The relevant solution is not simply better automated application screening, but better market design. It would make applicants bear more of the cost of low-value submissions and reveal more of their private information through selective behavior.&lt;&#x2F;p&gt;
+&lt;p&gt;The proposed design relies on a good old economic principle: if something is scarce, use pricing to distribute it. The deposit requirement plays a role similar to price in balancing supply and demand, and reputation credits are the unit in which that price is denominated.&lt;&#x2F;p&gt;
+&lt;p&gt;This does not mean that such a system is easy to implement or free of tradeoffs. Reputation gaming, entry barriers, and onboarding of new contributors would all require careful design. I discuss some potential issues in the appendices below. Still, the broader point remains: when AI creates congestion in a matching market, the right response is often to redesign incentives, not only to automate filtering.&lt;&#x2F;p&gt;
+&lt;p&gt;I don&#x27;t claim the proposed design is the best among similar alternatives. I don&#x27;t see the point of polishing details based only on theoretical considerations. Judging by my experience in the services marketplace, some initial theoretical premises turn out to be false. A workable design requires experimentation, trial and error in the field.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;resources&quot; class=&quot;h2&quot;&gt;Resources&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#resources&quot; aria-label=&quot;Anchor link for: resources&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Here is a list of resources I find useful for studying matching markets in general and the congestion problem in particular:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.amazon.com&#x2F;Who-Gets-What-Why-Matchmaking&#x2F;dp&#x2F;0544705289&#x2F;&quot;&gt;Roth, A. E. (2016). Who Gets What―and Why: The New Economics of Matchmaking and Market Design.&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;ssrn.com&#x2F;abstract=3004814&quot;&gt;Kanoria, Y. and Saban, D. (2020). Facilitating the Search for Partners on Matching Platforms.&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Matching_theory&quot;&gt;Matching theory (Wikipedia).&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Stable_matching_theory&quot;&gt;Stable matching theory (Wikipedia).&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;appendix-a-possible-issues-and-edge-cases&quot; class=&quot;h2&quot;&gt;Appendix A. Possible issues and edge cases&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#appendix-a-possible-issues-and-edge-cases&quot; aria-label=&quot;Anchor link for: appendix-a-possible-issues-and-edge-cases&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;reputation-gaming&quot; class=&quot;h4&quot;&gt;Reputation gaming&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#reputation-gaming&quot; aria-label=&quot;Anchor link for: reputation-gaming&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;The proposed design creates incentives to game reputation credits. For example, one might try to create a fake project and farm new reputation credits by creating and merging pull requests into their own project. The design should protect against this kind of behavior. In particular, this risk should be taken into account in the calculation of new reputation credits. See Appendix B for details.&lt;&#x2F;p&gt;
+&lt;p&gt;There will be some breaches anyway. A fully automated, bulletproof design is not possible. But I don&#x27;t think it is required. I rely on the assumption that incentives for reputation gaming are not very strong, and that very few contributors would go to great lengths to earn credits fraudulently. After all, reputation credits are not real money. The design disconnects them from real-world money by making them non-transferable between contributors and projects. Also, credit balances are private by design to avoid the temptation to use them as a vanity metric.&lt;&#x2F;p&gt;
+&lt;p&gt;There should probably also be platform-managed arbitration based on human judgment, along with a way to report fraud.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;system-initialization&quot; class=&quot;h4&quot;&gt;System initialization&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#system-initialization&quot; aria-label=&quot;Anchor link for: system-initialization&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;The market design efficiency depends on how projects&#x27; and contributors&#x27; balances are initialized in the beginning. A possible approach is to use projects&#x27; GitHub stars and history of contributions in the pre-AI era.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;entry-barriers-and-onboarding-for-new-contributors&quot; class=&quot;h4&quot;&gt;Entry barriers and onboarding for new contributors&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#entry-barriers-and-onboarding-for-new-contributors&quot; aria-label=&quot;Anchor link for: entry-barriers-and-onboarding-for-new-contributors&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;Without special measures, the new design will create very high entry barriers for newcomers. There are several ways to deal with this problem:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The platform can provide a certain amount of credits to newcomers upon registration. To avoid reputation gaming, these credits should not be taken into account when new credits are issued through merged pull requests.&lt;&#x2F;li&gt;
+&lt;li&gt;The first several issues and pull requests after registration might not require a deposit. Then the deposit requirement can gradually increase with each new pull request until it reaches the full level set by project owners.&lt;&#x2F;li&gt;
+&lt;li&gt;Some projects can allow deposit-free contributions for a limited number of new contributors, selected by their own criteria. Many projects might not require a deposit at all if they have enough capacity to review all incoming pull requests.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;I assume that most members of open source projects are interested in pull requests and new contributors. They are not interested in setting barriers to contributing that are too high. Just high enough to filter spam.&lt;&#x2F;p&gt;
+&lt;p&gt;Special treatment for newcomers can create an incentive to create new accounts. But I don&#x27;t believe the incentive would be strong. The real goal is not to make a couple of pull requests but to earn a reputation that allows more contributions. Creating a new account doesn&#x27;t really help achieve this goal.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;reputation-expiration&quot; class=&quot;h4&quot;&gt;Reputation expiration&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#reputation-expiration&quot; aria-label=&quot;Anchor link for: reputation-expiration&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;Even with special measures for newcomers, the design still favors incumbents who started earlier. Also, contributors who earned a lot of reputation credits over time might start abusing them. To avoid this, earned reputation credits should expire or be discounted over time. As an alternative, there can be a fixed number of the most recent pull requests and issues that are taken into account when calculating a credit balance.&lt;&#x2F;p&gt;
+&lt;p&gt;I would also consider a mechanism to forget old low-value contributions and give a second chance to contributors with low reputation balance.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;appendix-b-creation-of-new-reputation-credits&quot; class=&quot;h2&quot;&gt;Appendix B. Creation of new reputation credits&amp;nbsp;&lt;a class=&quot;anchor-link&quot; href=&quot;#appendix-b-creation-of-new-reputation-credits&quot; aria-label=&quot;Anchor link for: appendix-b-creation-of-new-reputation-credits&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;In the proposed market design, the total number of reputation credits in the system increases when value is created through merged pull requests, and decreases when time and attention is wasted on rejected pull requests.&lt;&#x2F;p&gt;
+&lt;p&gt;It is worth going into detail on how the additional reputation credits can be calculated. Possible formulas:&lt;&#x2F;p&gt;
+&lt;p&gt;$$\Delta Y = \ln(1 + \alpha X)$$
+$$\Delta X = \ln(1 + \beta Y)$$&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$X$ is the number of contributor reputation credits before creation of the pull request. It should include only credits earned by the contributor, not credits provided by the platform, for example to newcomers.&lt;&#x2F;li&gt;
+&lt;li&gt;$Y$ is the number of project reputation credits before creation of the pull request.&lt;&#x2F;li&gt;
+&lt;li&gt;$\Delta X$ is the number of additional reputation credits added to the contributor balance.&lt;&#x2F;li&gt;
+&lt;li&gt;$\Delta Y$ is the number of additional reputation credits added to the project balance.&lt;&#x2F;li&gt;
+&lt;li&gt;$\alpha$ and $\beta$ are small positive constants managed by the platform.&lt;&#x2F;li&gt;
+&lt;li&gt;$\ln$ is the natural logarithm function.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Possible alterations:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use an additional multiplier designating the amount of work done in a pull request. It should probably be kept secret to avoid reputation gaming.&lt;&#x2F;li&gt;
+&lt;li&gt;Replace $\ln(1 + \alpha X)$ and $\ln(1 + \beta Y)$ with other increasing concave functions of $X$ and $Y$ respectively.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Important properties:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The higher the project&#x27;s credit balance, the larger the increase in the contributor&#x27;s credits after a pull request is merged, and vice versa. This protects the system from reputation gaming when a contributor creates a fake project and merges useless pull requests just to inflate their credits.&lt;&#x2F;li&gt;
+&lt;li&gt;The increasing concave form of the reputation-creation functions at least partially protects the system from excessive inequality, or a &quot;rich get richer&quot; dynamic.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Prices as model weights: learning from dispersed data</title>
+        <published>2025-10-24T00:00:00+00:00</published>
+        <updated>2025-10-24T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Evgeny Ivanov
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://e10v.me/prices-as-model-weights/"/>
+        <id>https://e10v.me/prices-as-model-weights/</id>
+        
+        <content type="html" xml:base="https://e10v.me/prices-as-model-weights/">&lt;p&gt;Market prices are similar to model weights in the sense that they are &quot;fit&quot; through price discovery mechanisms to optimize for equilibrium. The difference between supply and demand is analogous to the gradient in backpropagation.&lt;&#x2F;p&gt;
+&lt;p&gt;An important property of prices is that they can be &quot;fit&quot; to &lt;em&gt;distributed&lt;&#x2F;em&gt; and sometimes &lt;em&gt;hidden&lt;&#x2F;em&gt; data. As Friedrich Hayek argued, prices convey &lt;em&gt;dispersed&lt;&#x2F;em&gt; knowledge that no single person or central planner could ever fully possess. There are problems that deal with information that cannot be accessed directly. A well-designed price discovery mechanism can solve such problems more efficiently than an AI&#x2F;ML model with limited information.&lt;&#x2F;p&gt;
+&lt;p&gt;This analogy came to mind while I was considering job market congestion that occurs when too many candidates apply for a role. Most of those candidates are not a good fit for the job, but they still try their luck since it requires little effort from them. As a solution, employers automate screening with AI. Candidates also use AI to scrape job descriptions and apply automatically (like &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=76RJVWvNOOQ&quot;&gt;&quot;tinda finger&quot;&lt;&#x2F;a&gt;). This creates a vicious cycle in which nobody wins.&lt;&#x2F;p&gt;
+&lt;p&gt;One possible solution is a market design in which candidates pay to apply, with dynamic pricing. Paying to apply may sound provocative and require thoughtful consideration and careful testing. Payments can be made with platform-issued virtual points, available in limited supply. But here, I focus on why price signals may address this problem better than AI-based screening.&lt;&#x2F;p&gt;
+&lt;p&gt;The job market is a matching market with information asymmetry, where both sides have unique preferences resolved only through costly interaction. Any AI&#x2F;ML algorithm is only as good as the data, and that data is limited and often inaccurate. Requiring payment to apply would elicit a candidate&#x27;s own estimate of their fit for the job and their true level of interest. These estimates would be reflected in prices, providing a visible signal that guides other candidates considering the role. This approach could reduce congestion, lower screening costs, and help form better matches.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
